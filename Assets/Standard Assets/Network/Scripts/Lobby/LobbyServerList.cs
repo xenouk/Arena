@@ -35,7 +35,7 @@ namespace UnityStandardAssets.Network
 			RequestPage (currentPage);
 		}
 
-        public void OnGUIMatchList(ListMatchResponse response) {
+        public void ShowGUIMatchList(ListMatchResponse response) {
 			if (response.matches.Count == 0) {
 				if (currentPage == 0) {
 					noServerFound.SetActive (true);
@@ -72,7 +72,7 @@ namespace UnityStandardAssets.Network
         public void RequestPage(int page) {
 			previousPage = currentPage;
 			currentPage = page;
-			lobbyManager.matchMaker.ListMatches (page, 6, "", OnGUIMatchList);
+			lobbyManager.matchMaker.ListMatches (page, 6, "", ShowGUIMatchList);
 		}
     }
 }

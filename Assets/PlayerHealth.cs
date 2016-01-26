@@ -10,6 +10,7 @@ public class PlayerHealth : NetworkBehaviour {
 	public Color m_FullHealthColor = Color.green;     // The color the health bar will be when on full health.
 	public Color m_ZeroHealthColor = Color.red;
 	public GameObject m_HealthCanvas;
+	public GameObject m_NameCanvas;
 	public GameObject m_Model;
 	public BoxCollider m_Collider; 
 	public PlayerManager m_Manager; 
@@ -56,6 +57,7 @@ public class PlayerHealth : NetworkBehaviour {
 		m_IsAlive = active;
 		m_Model.SetActive (active);
 		m_HealthCanvas.SetActive (active);
+		m_NameCanvas.SetActive (active);
 
 		if (active) m_Manager.EnableControl();
 		else m_Manager.DisableControl();
@@ -70,7 +72,7 @@ public class PlayerHealth : NetworkBehaviour {
 	void RpcRespawn(){
 		SetPlayerctive (false);
 		transform.position = new Vector3 (Random.Range (14, -14), 0.5f, Random.Range (9, -9));
-		StartCoroutine (SetRespawn ());
+		//StartCoroutine (SetRespawn ());
 	}
 
 	public void SetDefaults() {

@@ -34,6 +34,9 @@ namespace UnityStandardAssets.Network
         public bool isMatchmaking = false;
         protected bool _disconnectServer = false;
 
+		protected ulong _currentMatchID;
+		protected ulong _currentNodeID;
+
         protected LobbyHook _lobbyHooks;
 
         void Awake() {
@@ -129,16 +132,19 @@ namespace UnityStandardAssets.Network
         public void GoBackButton() {
 			backDelegate ();
 		}
-
-        // ----------------- Server management
-
+			
+		/**
+         * 
+         *  Server management 
+         * 
+         **/
         public void BackToMenu() {
 			ChangeTo (mainMenuPanel);
 		}
 
         public void StopHostToMenu() {
 			if (isMatchmaking) {
-				this.matchMaker.DestroyMatch (matchInfo.networkId, OnMatchDestroyed);
+				this.matchMaker.DestroyMatch ((NetworkID)_currentMatchID, OnMatchDestroyed);
 				_disconnectServer = true;
 			} else {
 				StopHost ();
@@ -148,7 +154,7 @@ namespace UnityStandardAssets.Network
 		}
 
         public void QuitLobbyToMenu() {
-			this.matchMaker.DropConnection (matchInfo.networkId, matchInfo.nodeId, OnConnectionDrop);
+			//this.matchMaker.DropConnection ((NetworkID)_currentMatchID, (NodeID)_currentNodeID, OnConnectionDrop);
 			StopClient ();
 			if (isMatchmaking) {
 				StopMatchMaker ();
@@ -167,8 +173,11 @@ namespace UnityStandardAssets.Network
 			ChangeTo (lobbyPanel);
 		}
 
-        //===================
-
+        /**
+         * 
+         *  Start Host a Game 
+         * 
+         **/
         public override void OnStartHost() {
 			base.OnStartHost ();
 
@@ -177,6 +186,11 @@ namespace UnityStandardAssets.Network
 			SetServerInfo ("Hosting", networkAddress);
 		}
 
+		/**
+         * 
+         *  When this Client Connects/Creates a Server 
+         * 
+         **/
         public override void OnClientConnect(NetworkConnection conn) {
 			base.OnClientConnect (conn);
 
@@ -189,21 +203,34 @@ namespace UnityStandardAssets.Network
 			}
 		}
 
+		/**
+         * 
+         *  When this Client create a Server 
+         * 
+         **/
 		public override void OnMatchCreate(CreateMatchResponse matchInfo) {
 			base.OnMatchCreate (matchInfo);
+			_currentMatchID = (System.UInt64)matchInfo.networkId;
 		}
 
 		//###################### Mine ###############################
+		/**
+         * 
+         *  When this Client joins a Server
+         * 
+         **/
 		public void OnMatchJoined(JoinMatchResponse matchInfo){
 			//base.OnMatchJoined (matchInfo);
+			_currentMatchID = (System.UInt64)matchInfo.networkId;
+			_currentNodeID = (System.UInt64)matchInfo.nodeId;
 
 			if (matchInfo.success) { 
 				try { 
 					UnityEngine.Networking.Utility.SetAccessTokenForNetwork(matchInfo.networkId, new NetworkAccessToken (matchInfo.accessTokenString)); 
 				} catch (Exception ex) { 
-					/*if (LogFilter.logError) { 
-						Debug.LogError (ex); 
-					} */
+					//if (LogFilter.logError) { 
+					//	Debug.LogError (ex); 
+					//} 
 				}
 				StartClient(new MatchInfo(matchInfo));
 			} else if (LogFilter.logError) { 
@@ -211,6 +238,11 @@ namespace UnityStandardAssets.Network
 			} 
 		}
 
+		/**
+         * 
+         *  When a match is destroyed 
+         * 
+         **/
         public void OnMatchDestroyed(BasicResponse resp) {
 			if (_disconnectServer) {
 				StopMatchMaker ();
@@ -220,12 +252,17 @@ namespace UnityStandardAssets.Network
 
 		//###################### Mine ###############################
 		public void OnConnectionDrop(BasicResponse resp) {	
-			
+			if(resp.success)
+				print (true);
 		}
 
-        // ----------------- Server callbacks ------------------
+		/**
+		 * 
+		 *  Server callbacks
+		 * 
+		 **/
 
-        //we want to disable the button JOIN if we don't have enough player
+        //We want to disable the button JOIN if we don't have enough player
         //But OnLobbyClientConnect isn't called on hosting player. So we override the lobbyPlayer creation
         public override GameObject OnLobbyServerCreateLobbyPlayer(NetworkConnection conn, short playerControllerId) {
 			GameObject obj = Instantiate (lobbyPlayerPrefab.gameObject) as GameObject;
@@ -252,7 +289,6 @@ namespace UnityStandardAssets.Network
 					p.RpcToggleJoinButton (numPlayers >= minPlayer);
 				}
 			}
-				
 		}
 
         public override bool OnLobbyServerSceneLoadedForPlayer(GameObject lobbyPlayer, GameObject gamePlayer) {
@@ -264,16 +300,37 @@ namespace UnityStandardAssets.Network
 
 			return true;
 		}
-
-
-        // --- Countdown management
+			
 
         static protected float _matchStartCountdown = 5.0f;
-
+		/**
+		 * 
+		 *  When all players are ready
+		 * 
+		 **/
         public override void OnLobbyServerPlayersReady() {
-			StartCoroutine (ServerCountdownCoroutine ());
+			bool temp = true;
+
+			for (int i = 0; i < numPlayers; ++i) {
+				LobbyPlayer p = lobbySlots [i] as LobbyPlayer;
+
+				if (p != null) {
+					if (!p.readyToBegin) {
+						temp = false;
+						break;
+					}
+				}
+			}
+
+			if(temp)
+				StartCoroutine (ServerCountdownCoroutine ());
 		}
 
+		/**
+		 * 
+		 *  Countdown management 
+		 * 
+		 **/
         public IEnumerator ServerCountdownCoroutine() {
 			float remainingTime = _matchStartCountdown;
 			int floorTime = Mathf.FloorToInt (remainingTime);
@@ -304,10 +361,11 @@ namespace UnityStandardAssets.Network
 			ServerChangeScene (playScene);
 		}
 
-
-
-        // ----------------- Client callbacks ------------------
-
+		/**
+		 * 
+		 *  Client callbacks -
+		 * 
+		 **/
         public override void OnClientDisconnect(NetworkConnection conn) {
 			base.OnClientDisconnect (conn);
 			ChangeTo (mainMenuPanel);
@@ -319,7 +377,7 @@ namespace UnityStandardAssets.Network
 		}
 
 		void FixedUpdate () {
-			//if(matchMaker != null)
+			//if (!mainMenuPanel.gameObject.activeInHierarchy)
 				//matchMaker.ListMatches (0, 6, "", GetMatchList);
 		}
 

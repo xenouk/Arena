@@ -15,6 +15,7 @@ public class GameManager : NetworkBehaviour {
 	public int m_NumRoundsToWin = 5;          // The number of rounds a single player has to win to win the game.
 	public float m_StartDelay = 3f;           // The delay between the start of RoundStarting and RoundPlaying phases.
 	public float m_EndDelay = 3f;             // The delay between the end of RoundPlaying and RoundEnding phases.
+	public CameraControl m_CameraControl;     // Reference to the CameraControl script for control during different phases.
 	public Text m_MessageText;                // Reference to the overlay Text to display winning text, etc.
 	public GameObject m_PlayerPrefab;           // Reference to the prefab the players will control.
 
@@ -146,8 +147,11 @@ public class GameManager : NetworkBehaviour {
 	[ClientRpc]
 	void RpcRoundStarting() {
 		// As soon as the round starts reset the tanks and make sure they can't move.
-		ResetAllTanks ();
-		DisableTankControl ();
+		ResetAllPlayers ();
+		DisablePlayerControl ();
+
+		// Snap the camera's zoom and position to something appropriate for the reset tanks.
+		m_CameraControl.SetAppropriatePositionAndSize ();
 
 		// Increment the round number and display text showing the players what round it is.
 		m_RoundNumber++;
@@ -173,7 +177,7 @@ public class GameManager : NetworkBehaviour {
 
 			//sometime, synchronization lag behind because of packet drop, so we make sure our tank are reseted
 			if (elapsedTime / wait < 0.5f)
-				ResetAllTanks ();
+				ResetAllPlayers ();
 
 			yield return null;
 		}
@@ -193,7 +197,7 @@ public class GameManager : NetworkBehaviour {
 	[ClientRpc]
 	void RpcRoundPlaying() {
 		// As soon as the round begins playing let the players control the tanks.
-		EnableTankControl ();
+		EnablePlayerControl ();
 
 		// Clear the text from the screen.
 		m_MessageText.text = string.Empty;
@@ -224,7 +228,7 @@ public class GameManager : NetworkBehaviour {
 
 	[ClientRpc]
 	private void RpcRoundEnding() {
-		DisableTankControl ();
+		DisablePlayerControl ();
 		StartCoroutine (ClientRoundEndingFade ());
 	}
 
@@ -332,7 +336,7 @@ public class GameManager : NetworkBehaviour {
 
 
 	// This function is used to turn all the tanks back on and reset their positions and properties.
-	private void ResetAllTanks() {
+	private void ResetAllPlayers() {
 		for (int i = 0; i < m_Players.Count; i++) {
 			m_Players [i].m_SpawnPoint = m_SpawnPoint [m_Players [i].m_Setup.m_PlayerNumber];
 			m_Players [i].Reset ();
@@ -340,14 +344,14 @@ public class GameManager : NetworkBehaviour {
 	}
 
 
-	private void EnableTankControl() {
+	private void EnablePlayerControl() {
 		for (int i = 0; i < m_Players.Count; i++) {
 			m_Players [i].EnableControl ();
 		}
 	}
 
 
-	private void DisableTankControl() {
+	private void DisablePlayerControl() {
 		for (int i = 0; i < m_Players.Count; i++) {
 			m_Players [i].DisableControl ();
 		}

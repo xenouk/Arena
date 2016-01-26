@@ -64,15 +64,17 @@ namespace UnityStandardAssets.Network
 			SetupLocalPlayer ();
 		}
 
-        bool changedColor = false;
+        //bool changedColor = false;
         void Update() {
 			if (SceneManager.GetActiveScene ().name != LobbyManager.s_Singleton.lobbyScene)
 				return;
 
-			InputField obj = (EventSystem.current.currentSelectedGameObject != null) ? EventSystem.current.currentSelectedGameObject.GetComponent<InputField> () : null;
-
-			if (isLocalPlayer && (obj == null || !obj.isFocused)) {
+			//InputField obj = (EventSystem.current.currentSelectedGameObject != null) ? 
+				//EventSystem.current.currentSelectedGameObject.GetComponent<InputField> () : null;
+			///////////////////////////////////////////////////////////////////////////////////////////////////////////
+			/*if (isLocalPlayer && (obj == null || !obj.isFocused)) {
 				int localIdx = playerControllerId + 1;
+
 				if (!readyToBegin && Input.GetButtonDown ("Submit" + localIdx)) {
 					if (readyButton.IsActive () && readyButton.IsInteractable ())
 						SendReadyToBeginMessage ();
@@ -86,7 +88,7 @@ namespace UnityStandardAssets.Network
 				} else {
 					changedColor = false;
 				}
-			}
+			}*/
 		}
 
         void ChangeReadyButtonColor(Color c) {

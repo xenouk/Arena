@@ -7,7 +7,6 @@ using UnityEngine.Networking.Match;
 using System.Collections;
 using System;
 
-
 namespace UnityStandardAssets.Network
 {
     public class LobbyManager : NetworkLobbyManager {
@@ -29,6 +28,7 @@ namespace UnityStandardAssets.Network
 
         public Text statusInfo;
         public Text hostInfo;
+		public Text matchModeInfo;
 
         //used to disconnect a client properly when exiting the matchmaker
         public bool isMatchmaking = false;
@@ -38,6 +38,9 @@ namespace UnityStandardAssets.Network
 		protected ulong _currentNodeID;
 
         protected LobbyHook _lobbyHooks;
+
+		public int currentMatchValue;
+		public string[] matchModes = new string[] {"DEAD MATCH"," ROUND MATCH"};
 
         void Awake() {
 			if (FindObjectsOfType<LobbyManager> ().Length > 1)
@@ -184,6 +187,8 @@ namespace UnityStandardAssets.Network
 			ChangeTo (lobbyPanel);
 			backDelegate = StopHostToMenu;
 			SetServerInfo ("Hosting", networkAddress);
+
+			matchModeInfo.text = "MODE: "+ matchModes[currentMatchValue];
 		}
 
 		/**
@@ -223,6 +228,7 @@ namespace UnityStandardAssets.Network
 			//base.OnMatchJoined (matchInfo);
 			_currentMatchID = (System.UInt64)matchInfo.networkId;
 			_currentNodeID = (System.UInt64)matchInfo.nodeId;
+			matchModeInfo.text = "MODE: "+ matchModes[currentMatchValue];
 
 			if (matchInfo.success) { 
 				try { 
@@ -296,11 +302,10 @@ namespace UnityStandardAssets.Network
 			//just subclass "LobbyHook" and add it to the lobby object.
 
 			if (_lobbyHooks)
-				_lobbyHooks.OnLobbyServerSceneLoadedForPlayer (this, lobbyPlayer, gamePlayer);
+				_lobbyHooks.OnLobbyServerSceneLoadedForPlayer (this, lobbyPlayer, gamePlayer, currentMatchValue);
 
 			return true;
 		}
-			
 
         static protected float _matchStartCountdown = 5.0f;
 		/**
@@ -377,13 +382,13 @@ namespace UnityStandardAssets.Network
 		}
 
 		void FixedUpdate () {
-			//if (!mainMenuPanel.gameObject.activeInHierarchy)
-				//matchMaker.ListMatches (0, 6, "", GetMatchList);
+			if (!mainMenuPanel.gameObject.activeInHierarchy)
+				matchMaker.ListMatches (0, 6, "", GetMatchList);
 		}
 
 		public void GetMatchList(ListMatchResponse response) {
 			if(response.matches.Count > 0)
-				print (response.matches [0].currentSize);
+				print (Int32.Parse(response.matches [0].name.Split(' ')[response.matches [0].name.Split(' ').Length-1]));
 		}
     }
 }

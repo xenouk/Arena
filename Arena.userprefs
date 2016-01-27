@@ -1,10 +1,17 @@
 ﻿<Properties StartupItem="Assembly-CSharp.csproj">
   <MonoDevelop.Ide.Workspace ActiveConfiguration="Debug" PreferredExecutionTarget="Unity.Instance.Unity Editor" />
-  <MonoDevelop.Ide.Workbench ActiveDocument="Assets\GameManager.cs">
+  <MonoDevelop.Ide.Workbench ActiveDocument="Assets\Standard Assets\Network\Scripts\Lobby\LobbyServerEntry.cs">
     <Files>
-      <File FileName="Assets\CameraControl.cs" Line="115" Column="43" />
-      <File FileName="Assets\GameManager.cs" Line="203" Column="37" />
-      <File FileName="Assets\PlayerManager.cs" Line="17" Column="26" />
+      <File FileName="Assets\PlayerManager.cs" Line="88" Column="19" />
+      <File FileName="Assets\GameManager.cs" Line="7" Column="1" />
+      <File FileName="Assets\Standard Assets\Network\Scripts\Lobby\LobbyMainMenu.cs" Line="57" Column="72" NotebookId="1" />
+      <File FileName="Assets\Standard Assets\Network\Scripts\Lobby\LobbyManager.cs" Line="391" Column="106" NotebookId="1" />
+      <File FileName="Assets\PlayerLobbyHook.cs" Line="15" Column="40" NotebookId="1" />
+      <File FileName="Assets\Standard Assets\Network\Scripts\Lobby\LobbyPlayerList.cs" Line="1" Column="1" NotebookId="1" />
+      <File FileName="Assets\Standard Assets\Network\Scripts\Lobby\LobbyHook.cs" Line="11" Column="141" NotebookId="1" />
+      <File FileName="Assets\Standard Assets\Network\Scripts\Lobby\LobbyPlayer.cs" Line="26" Column="34" NotebookId="1" />
+      <File FileName="Assets\Standard Assets\Network\Scripts\Lobby\LobbyServerList.cs" Line="57" Column="77" NotebookId="1" />
+      <File FileName="Assets\Standard Assets\Network\Scripts\Lobby\LobbyServerEntry.cs" Line="33" Column="101" NotebookId="1" />
     </Files>
   </MonoDevelop.Ide.Workbench>
   <MonoDevelop.Ide.DebuggingService.Breakpoints>

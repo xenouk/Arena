@@ -1,6 +1,7 @@
 using UnityEngine;
 using UnityEngine.UI;
 using System.Collections;
+using UnityEngine.Networking.Match;
 
 namespace UnityStandardAssets.Network
 {
@@ -13,6 +14,7 @@ namespace UnityStandardAssets.Network
 
         public InputField ipInput;
         public InputField matchNameInput;
+		public Dropdown matchMode;
 
         public void OnEnable() {
 			lobbyManager.topPanel.ToggleVisibility (true);
@@ -51,16 +53,19 @@ namespace UnityStandardAssets.Network
 		// Click to create a match name
         public void OnClickCreateMatchmakingGame() {
 			lobbyManager.StartMatchMaker ();
+			CreateMatchRequest newMatch = new CreateMatchRequest ();
+			newMatch.name = matchNameInput.text + " "+matchMode.value.ToString();
+			newMatch.size = (uint)lobbyManager.maxPlayers;
+			newMatch.advertise = true;
+			newMatch.password = "";
 			lobbyManager.matchMaker.CreateMatch (
-				matchNameInput.text,
-				(uint)lobbyManager.maxPlayers,
-				true,
-				"",
+				newMatch,
 				lobbyManager.OnMatchCreate);
 
 			lobbyManager.backDelegate = lobbyManager.StopHost;
 			lobbyManager.isMatchmaking = true;
 			lobbyManager.DisplayIsConnecting ();
+			lobbyManager.currentMatchValue = matchMode.value;
 
 			lobbyManager.SetServerInfo ("Matchmaker Host", lobbyManager.matchHost);
 		}

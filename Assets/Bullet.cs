@@ -7,6 +7,7 @@ public class Bullet : MonoBehaviour {
 	public float speed = 100f;
 	public Vector3 originalDirection;
 	public PlayerController owner;
+	public PlayerManager manager;
 
 	private void Start() {
 		Destroy(gameObject, 1.0f);
@@ -20,7 +21,7 @@ public class Bullet : MonoBehaviour {
 
 		var playerHealth = other.GetComponent<PlayerHealth> ();
 		if (playerHealth != null) {
-			playerHealth.TakeDamage (damage);
+			playerHealth.TakeDamage (damage, manager);
 		}
 
 		Destroy (gameObject);

@@ -26,6 +26,9 @@ public class PlayerSetup : NetworkBehaviour {
 	[SyncVar]
 	public bool m_IsReady = false;
 
+	[SyncVar]
+	public int m_kills;
+
 	//This allow to know if the crown must be displayed or not
 	protected bool m_isLeader = false;
 
@@ -58,11 +61,11 @@ public class PlayerSetup : NetworkBehaviour {
 			return;
 		}
 
-		if (GameManager.s_Instance.m_GameIsFinished && !m_IsReady) {
+		/*if (GameManager.s_Instance.m_GameIsFinished && !m_IsReady) {
 			if (Input.GetButtonDown ("Fire" + (m_LocalID + 1))) {
 				CmdSetReady ();
 			}
-		}
+		}*/
 	}
 
 	public void SetLeader(bool leader) {
@@ -84,6 +87,6 @@ public class PlayerSetup : NetworkBehaviour {
 	}
 
 	public override void OnNetworkDestroy() {
-		GameManager.s_Instance.RemoveTank (gameObject);
+		GameManager.s_Instance.RemovePlayers (gameObject);
 	}
 }

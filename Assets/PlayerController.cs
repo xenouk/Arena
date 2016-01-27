@@ -11,10 +11,11 @@ public class PlayerController : NetworkBehaviour {
 	public float m_bulletSpeed = 50f;
 	public int m_PlayerNumber = 1;
 	public int m_LocalID = 1;
+	public PlayerManager m_Manager; 
 	private Vector3 _movement = Vector3.zero;
 	public Rigidbody _playerRigidbody;
 	private PlayerHealth _playerHealth;
-	[SerializeField] GameObject _bulletPrefab;
+	public GameObject _bulletPrefab;
 	float timer;
 
 	// Use this for initialization
@@ -102,6 +103,7 @@ public class PlayerController : NetworkBehaviour {
 			bulletScript.originalDirection = vectorBase [2];
 
 			bulletScript.owner = this;
+			bulletScript.manager = m_Manager;
 		}
 	}
 

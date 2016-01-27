@@ -20,11 +20,13 @@ public class PlayerManager {
 	[HideInInspector]
 	public int m_Wins;                        // The number of wins this player has so far.
 	[HideInInspector]
-	public string m_PlayerName;                    // The player name set in the lobby
+	public int m_Kills;                       // The number of kills this player has so far.
 	[HideInInspector]
-	public int m_LocalPlayerID;                    // The player localID (if there is more than 1 player on the same machine)
+	public string m_PlayerName;               // The player name set in the lobby
+	[HideInInspector]
+	public int m_LocalPlayerID;               // The player localID (if there is more than 1 player on the same machine)
 
-	public PlayerController m_Movement;        // References to various objects for control during the different game phases.
+	public PlayerController m_Movement;       // References to various objects for control during the different game phases.
 	public PlayerHealth m_Health;
 	public PlayerSetup m_Setup;
 
@@ -39,6 +41,7 @@ public class PlayerManager {
 
 		//Set a reference to that amanger in the health script, to disable control when dying
 		m_Health.m_Manager = this;
+		m_Movement.m_Manager = this;
 
 		// Set the player numbers to be consistent across the scripts.
 		m_Movement.m_PlayerNumber = m_PlayerNumber;
@@ -49,6 +52,7 @@ public class PlayerManager {
 		m_Setup.m_PlayerName = m_PlayerName;
 		m_Setup.m_PlayerNumber = m_PlayerNumber;
 		m_Setup.m_LocalID = m_LocalPlayerID;
+		m_Setup.m_kills = m_Kills;
 	}
 
 	// Used during the phases of the game where the player shouldn't be able to control their tank.
@@ -63,6 +67,11 @@ public class PlayerManager {
 
 	public string GetName() {
 		return m_Setup.m_PlayerName;
+	}
+
+	public int GetKills {
+		get{ return m_Setup.m_kills; }
+		set{ m_Setup.m_kills = value; }
 	}
 
 	public void SetLeader(bool leader) { 

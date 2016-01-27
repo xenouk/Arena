@@ -27,16 +27,24 @@ public class PlayerHealth : NetworkBehaviour {
 		m_Collider = GetComponent<BoxCollider> ();
 	}
 
-	public void TakeDamage(int amount) {
+	public void TakeDamage(int amount, PlayerManager from) {
 		if (!isServer || !m_IsAlive)
 			return;
 
 		m_CurrentHealth -= amount;
 
 		if(m_CurrentHealth <= 0){
+			from.GetKills++;
+			GameManager.s_Instance.RpcUpdateStatus ();
 			m_CurrentHealth = m_BaseHealth;
 			SetPlayerctive (false);
-			RpcRespawn ();
+			switch (GameManager.m_MatchMode) {
+			case 0:
+				StartCoroutine(SetRespawn());
+				break;
+			case 1: 
+				break;
+			}
 		}
 	}
 
@@ -63,20 +71,26 @@ public class PlayerHealth : NetworkBehaviour {
 		else m_Manager.DisableControl();
 	}
 
-	IEnumerator SetRespawn(){
-		yield return new WaitForSeconds (1);
+	public void SetDefaults() {
+		m_CurrentHealth = m_BaseHealth;
 		SetPlayerctive (true);
+	}
+
+	IEnumerator SetRespawn(){
+		RpcSetPlayerctive (false);
+		yield return new WaitForSeconds (1);
+		RpcRespawn ();
+		yield return new WaitForSeconds (0.1f);
+		RpcSetPlayerctive (true);
+	}
+
+	[ClientRpc]
+	void RpcSetPlayerctive(bool active){
+		SetPlayerctive (active);
 	}
 
 	[ClientRpc]
 	void RpcRespawn(){
-		SetPlayerctive (false);
 		transform.position = new Vector3 (Random.Range (14, -14), 0.5f, Random.Range (9, -9));
-		//StartCoroutine (SetRespawn ());
-	}
-
-	public void SetDefaults() {
-		m_CurrentHealth = m_BaseHealth;
-		SetPlayerctive (true);
 	}
 }

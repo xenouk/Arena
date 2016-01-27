@@ -47,12 +47,14 @@
   <ItemGroup>
      <Compile Include="Assets\Bullet.cs" />
      <Compile Include="Assets\CameraControl.cs" />
+     <Compile Include="Assets\DeadMatchManager.cs" />
      <Compile Include="Assets\GameManager.cs" />
      <Compile Include="Assets\PlayerController.cs" />
      <Compile Include="Assets\PlayerHealth.cs" />
      <Compile Include="Assets\PlayerLobbyHook.cs" />
      <Compile Include="Assets\PlayerManager.cs" />
      <Compile Include="Assets\PlayerSetup.cs" />
+     <Compile Include="Assets\RoundMatchManager.cs" />
      <Compile Include="Assets\UIDirectionControl.cs" />
      <None Include="Assets\Standard Assets\Network\Instruction.txt" />
  <Reference Include="UnityEngine.UI">

@@ -21,7 +21,9 @@ public class GameManager : NetworkBehaviour {
 	public Text m_MessageText;                // Reference to the overlay Text to display winning text, etc.
 	public GameObject m_PlayerPrefab;           // Reference to the prefab the players will control.
 
-	public Transform[] m_SpawnPoint;
+	public Transform[] m_StartPoints;
+	public GameObject m_SpawnPoints;
+	public GameObject[] m_PickupPrefabs;
 
 	[HideInInspector]
 	[SyncVar]
@@ -71,7 +73,14 @@ public class GameManager : NetworkBehaviour {
 			StartCoroutine (PlayRoundMatch ());
 			break;
 		}
+	}
 
+	public override void OnStartClient() {
+		base.OnStartClient ();
+
+		foreach (GameObject obj in m_PickupPrefabs) {
+			ClientScene.RegisterPrefab (obj);
+		}
 	}
 
 	/// <summary>
@@ -231,6 +240,28 @@ public class GameManager : NetworkBehaviour {
 		}
 	}
 
+	private IEnumerator SpawnPickups(){
+		const float MIN_TIME = 2.0f;
+		const float MAX_TIME = 3.0f;
+
+		while (!m_GameIsFinished) {
+			yield return new WaitForSeconds(Random.Range(MIN_TIME, MAX_TIME));
+
+			Transform spot;
+
+			do {
+				spot = m_SpawnPoints.transform.GetChild(Random.Range(0, m_SpawnPoints.transform.childCount));
+			} while(spot.childCount > 0);
+
+			GameObject pickup = Instantiate (
+				m_PickupPrefabs [Random.Range (0, m_PickupPrefabs.Length)], 
+				spot.position, 
+				Quaternion.identity) as GameObject;
+			pickup.transform.SetParent (spot);
+			NetworkServer.Spawn (pickup);
+		}
+	}
+
 	[ClientRpc]
 	public void RpcRoundStarting() {
 		// As soon as the round starts reset the tanks and make sure they can't move.
@@ -250,7 +281,8 @@ public class GameManager : NetworkBehaviour {
 			m_MessageText.text = "ROUND " + m_RoundNumber;
 			break;
 		}
-
+		if(isServer)
+			StartCoroutine (SpawnPickups ());
 		StartCoroutine (ClientRoundStartingFade ());
 	}
 
@@ -304,7 +336,7 @@ public class GameManager : NetworkBehaviour {
 	// This function is used to turn all the tanks back on and reset their positions and properties.
 	public void ResetAllPlayers() {
 		for (int i = 0; i < m_Players.Count; i++) {
-			m_Players [i].m_SpawnPoint = m_SpawnPoint [m_Players [i].m_Setup.m_PlayerNumber];
+			m_Players [i].m_SpawnPoint = m_StartPoints [m_Players [i].m_Setup.m_PlayerNumber];
 			m_Players [i].Reset ();
 		}
 	}

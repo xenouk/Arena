@@ -46,7 +46,7 @@ public class RoundMatchManager {
 		// Go through all the tanks...
 		for (int i = 0; i < GameManager.m_Players.Count; i++) {
 			// ... and if they are active, increment the counter.
-			if (GameManager.m_Players [i].m_TankRenderers.activeSelf)
+			if (GameManager.m_Players [i].m_Models.activeSelf)
 				numTanksLeft++;
 		}
 
@@ -60,7 +60,7 @@ public class RoundMatchManager {
 		// Go through all the tanks...
 		for (int i = 0; i < GameManager.m_Players.Count; i++) {
 			// ... and if one of them is active, it is the winner so return it.
-			if (GameManager.m_Players [i].m_TankRenderers.activeSelf)
+			if (GameManager.m_Players [i].m_Models.activeSelf)
 				return GameManager.m_Players [i];
 		}
 

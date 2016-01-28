@@ -6,9 +6,9 @@ public class CameraControl : MonoBehaviour {
 	static public CameraControl sInstance;
 
 	public float m_DampTime = 0.2f;                   // Approximate time for the camera to refocus.
-	public float m_ScreenEdgeBuffer = 5f;             // Space between the top/bottom most target and the screen edge (multiplied by aspect for left and right).
-	public float m_ConvertDistanceToSize = 4f;      // Used to multiply by the offset of the rig to the furthest target.
-	public float m_MinSize = 60f;                    // The smallest orthographic size the camera can be.
+	public float m_ScreenEdgeBuffer = 4f;             // Space between the top/bottom most target and the screen edge (multiplied by aspect for left and right).
+	public float m_MaxSize = 8f;                    // The smallest orthographic size the camera can be.
+	public float m_ConvertDistanceToSize = 1;      // Used to multiply by the offset of the rig to the furthest target.
 
 	private Camera[] m_Camera;                      // Used for referencing the camera.
 	private float m_ZoomSpeed;                      // Reference speed for the smooth damping of the orthographic size.
@@ -70,7 +70,7 @@ public class CameraControl : MonoBehaviour {
 		float targetSize = FindRequiredSize (desiredPosition);
 		
 		foreach(Camera c in m_Camera)
-			c.fieldOfView = Mathf.SmoothDamp (c.fieldOfView, targetSize, ref m_ZoomSpeed, m_DampTime);
+			c.orthographicSize = Mathf.SmoothDamp (c.orthographicSize, targetSize, ref m_ZoomSpeed, m_DampTime);
 	}
 
 
@@ -79,11 +79,10 @@ public class CameraControl : MonoBehaviour {
 		float targetDistance = MaxTargetDistance (desiredPosition);
 
 		// Calculate the size based on the previously found ratio and buffer.
-		float newSize = targetDistance * m_ConvertDistanceToSize + m_ScreenEdgeBuffer;
+		float newSize = targetDistance * m_ConvertDistanceToSize * (targetDistance * m_ScreenEdgeBuffer);
 
 		// Restrict the new size so that it's not smaller than the minimum size.
-		newSize = Mathf.Max (newSize, m_MinSize);
-	
+		newSize = Mathf.Min (newSize, m_MaxSize);
 		return newSize;
 	}
 
@@ -116,6 +115,6 @@ public class CameraControl : MonoBehaviour {
 		// Set orthographic size and position without damping.
 		transform.position = FindAveragePosition ();
 		foreach(Camera c in m_Camera)
-			c.fieldOfView = FindRequiredSize (transform.position);
+			c.orthographicSize = FindRequiredSize (transform.position);
 	}
 }

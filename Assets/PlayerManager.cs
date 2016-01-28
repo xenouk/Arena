@@ -16,7 +16,7 @@ public class PlayerManager {
 	[HideInInspector]
 	public GameObject m_Instance;             // A reference to the instance of the tank when it is created.
 	[HideInInspector]
-	public GameObject m_TankRenderers;        // The transform that is a parent of all the tank's renderers.  This is deactivated when the tank is dead.
+	public GameObject m_Models;        // The transform that is a parent of all the tank's renderers.  This is deactivated when the tank is dead.
 	[HideInInspector]
 	public int m_Wins;                        // The number of wins this player has so far.
 	[HideInInspector]
@@ -27,21 +27,24 @@ public class PlayerManager {
 	public int m_LocalPlayerID;               // The player localID (if there is more than 1 player on the same machine)
 
 	public PlayerController m_Movement;       // References to various objects for control during the different game phases.
+	public PlayerSubWeapons m_SubWeapons;
 	public PlayerHealth m_Health;
 	public PlayerSetup m_Setup;
 
 	public void Setup() {
 		// Get references to the components.
 		m_Movement = m_Instance.GetComponent<PlayerController> ();
+		m_SubWeapons = m_Instance.GetComponent<PlayerSubWeapons> ();
 		m_Health = m_Instance.GetComponent<PlayerHealth> ();
 		m_Setup = m_Instance.GetComponent<PlayerSetup> ();
 
 		// Get references to the child objects.
-		m_TankRenderers = m_Health.m_Model;
+		m_Models = m_Health.m_Model;
 
 		//Set a reference to that amanger in the health script, to disable control when dying
 		m_Health.m_Manager = this;
 		m_Movement.m_Manager = this;
+		m_SubWeapons.m_Manager = this;
 
 		// Set the player numbers to be consistent across the scripts.
 		m_Movement.m_PlayerNumber = m_PlayerNumber;
@@ -58,11 +61,13 @@ public class PlayerManager {
 	// Used during the phases of the game where the player shouldn't be able to control their tank.
 	public void DisableControl() {
 		m_Movement.enabled = false;
+		m_SubWeapons.enabled = false;
 	}
 		
 	// Used during the phases of the game where the player should be able to control their tank.
 	public void EnableControl() {
 		m_Movement.enabled = true;
+		m_SubWeapons.enabled = true;
 	}
 
 	public string GetName() {

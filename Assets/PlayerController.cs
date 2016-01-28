@@ -17,6 +17,7 @@ public class PlayerController : NetworkBehaviour {
 	private PlayerHealth _playerHealth;
 	public GameObject _bulletPrefab;
 	float timer;
+	bool left;
 
 	// Use this for initialization
 	private void Awake() {
@@ -36,7 +37,7 @@ public class PlayerController : NetworkBehaviour {
 		timer -= Time.fixedDeltaTime;
 
 		if (Input.GetMouseButton (0) && timer <= 0) {
-			CmdFire(transform.position, transform.forward, _playerRigidbody.velocity);
+			CmdFire();
 			timer = fireRate;
 		}
 
@@ -73,7 +74,7 @@ public class PlayerController : NetworkBehaviour {
 	}
 
 	[Command]
-	public void CmdFire(Vector3 position, Vector3 forward, Vector3 startingVelocity) {
+	public void CmdFire() {
 		if (!isClient) //avoid to create bullet twice (here & in Rpc call) on hosting client
 			CreateBullets ();
 
@@ -96,15 +97,16 @@ public class PlayerController : NetworkBehaviour {
 			.5f * vectorBase [0] + -0.4f * vectorBase [2]
 		};
 
-		for (int i = 0; i < 2; ++i) {
-			GameObject bullet = Instantiate (_bulletPrefab, _playerRigidbody.position + offsets [i], Quaternion.identity) as GameObject;
-			Bullet bulletScript = bullet.GetComponent<Bullet> ();
+		Vector3 newOffset = (left) ? offsets [0] : offsets [1];
+		left = !left;
 
-			bulletScript.originalDirection = vectorBase [2];
+		GameObject bullet = Instantiate (_bulletPrefab, _playerRigidbody.position + newOffset, Quaternion.identity) as GameObject;
+		Bullet bulletScript = bullet.GetComponent<Bullet> ();
 
-			bulletScript.owner = this;
-			bulletScript.manager = m_Manager;
-		}
+		bulletScript.originalDirection = vectorBase [2];
+
+		bulletScript.owner = this;
+		bulletScript.manager = m_Manager;
 	}
 
 	public void SetDefaults() {

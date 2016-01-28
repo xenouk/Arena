@@ -1,17 +1,15 @@
 ﻿<Properties StartupItem="Assembly-CSharp.csproj">
   <MonoDevelop.Ide.Workspace ActiveConfiguration="Debug" PreferredExecutionTarget="Unity.Instance.Unity Editor" />
-  <MonoDevelop.Ide.Workbench ActiveDocument="Assets\Standard Assets\Network\Scripts\Lobby\LobbyServerEntry.cs">
+  <MonoDevelop.Ide.Workbench ActiveDocument="Assets\PlayerSubWeapons.cs">
     <Files>
-      <File FileName="Assets\PlayerManager.cs" Line="88" Column="19" />
-      <File FileName="Assets\GameManager.cs" Line="7" Column="1" />
-      <File FileName="Assets\Standard Assets\Network\Scripts\Lobby\LobbyMainMenu.cs" Line="57" Column="72" NotebookId="1" />
-      <File FileName="Assets\Standard Assets\Network\Scripts\Lobby\LobbyManager.cs" Line="391" Column="106" NotebookId="1" />
-      <File FileName="Assets\PlayerLobbyHook.cs" Line="15" Column="40" NotebookId="1" />
-      <File FileName="Assets\Standard Assets\Network\Scripts\Lobby\LobbyPlayerList.cs" Line="1" Column="1" NotebookId="1" />
-      <File FileName="Assets\Standard Assets\Network\Scripts\Lobby\LobbyHook.cs" Line="11" Column="141" NotebookId="1" />
-      <File FileName="Assets\Standard Assets\Network\Scripts\Lobby\LobbyPlayer.cs" Line="26" Column="34" NotebookId="1" />
-      <File FileName="Assets\Standard Assets\Network\Scripts\Lobby\LobbyServerList.cs" Line="57" Column="77" NotebookId="1" />
-      <File FileName="Assets\Standard Assets\Network\Scripts\Lobby\LobbyServerEntry.cs" Line="33" Column="101" NotebookId="1" />
+      <File FileName="Assets\FireBall.cs" Line="37" Column="3" />
+      <File FileName="Assets\PlayerManager.cs" Line="1" Column="1" />
+      <File FileName="Assets\GameManager.cs" Line="1" Column="1" />
+      <File FileName="Assets\PlayerHealth.cs" Line="1" Column="1" />
+      <File FileName="Assets\Bullet.cs" Line="20" Column="11" />
+      <File FileName="Assets\PlayerController.cs" Line="7" Column="22" />
+      <File FileName="Assets\PlayerSubWeapons.cs" Line="60" Column="21" NotebookId="1" />
+      <File FileName="..\LobbyTest\Assets\SampleScenes\Scripts\NetworkAsteroid.cs" Line="22" Column="58" NotebookId="1" />
     </Files>
   </MonoDevelop.Ide.Workbench>
   <MonoDevelop.Ide.DebuggingService.Breakpoints>

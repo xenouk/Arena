@@ -382,8 +382,8 @@ namespace UnityStandardAssets.Network
 		}
 
 		void FixedUpdate () {
-			if (!mainMenuPanel.gameObject.activeInHierarchy)
-				matchMaker.ListMatches (0, 6, "", GetMatchList);
+			//if (!mainMenuPanel.gameObject.activeInHierarchy)
+				//matchMaker.ListMatches (0, 6, "", GetMatchList);
 		}
 
 		public void GetMatchList(ListMatchResponse response) {

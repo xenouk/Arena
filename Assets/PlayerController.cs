@@ -7,17 +7,12 @@ using UnityEngine.Networking;
 public class PlayerController : NetworkBehaviour {
 	public float m_Speed = 7f;
 	public float m_RotSpeed = 7f;
-	public float fireRate = 0.2f;
-	public float m_bulletSpeed = 50f;
 	public int m_PlayerNumber = 1;
 	public int m_LocalID = 1;
 	public PlayerManager m_Manager; 
 	private Vector3 _movement = Vector3.zero;
 	public Rigidbody _playerRigidbody;
 	private PlayerHealth _playerHealth;
-	public GameObject _bulletPrefab;
-	float timer;
-	bool left;
 
 	// Use this for initialization
 	private void Awake() {
@@ -27,20 +22,6 @@ public class PlayerController : NetworkBehaviour {
 	public override void OnStartLocalPlayer () {
 		base.OnStartLocalPlayer ();
 		_playerHealth = GetComponent<PlayerHealth> ();
-	}
-
-	[ClientCallback]
-	void Update() {
-		if (!isLocalPlayer || !_playerHealth.m_IsAlive)
-			return;
-
-		timer -= Time.fixedDeltaTime;
-
-		if (Input.GetMouseButton (0) && timer <= 0) {
-			CmdFire();
-			timer = fireRate;
-		}
-
 	}
 
 	// Update is called once per frame
@@ -71,42 +52,6 @@ public class PlayerController : NetworkBehaviour {
 			Quaternion newRotation = Quaternion.LookRotation(playerToMouse);
 			_playerRigidbody.rotation = Quaternion.Lerp (_playerRigidbody.rotation, newRotation, m_RotSpeed * Time.fixedDeltaTime);
 		}
-	}
-
-	[Command]
-	public void CmdFire() {
-		if (!isClient) //avoid to create bullet twice (here & in Rpc call) on hosting client
-			CreateBullets ();
-
-		RpcFire ();
-	}
-
-	[ClientRpc]
-	public void RpcFire() {
-		CreateBullets ();
-	}
-
-	public void CreateBullets() {
-		Vector3[] vectorBase = {
-			_playerRigidbody.rotation * Vector3.right,
-			_playerRigidbody.rotation * Vector3.up,
-			_playerRigidbody.rotation * Vector3.forward
-		};
-		Vector3[] offsets = {
-			-.5f * vectorBase [0] + -0.4f * vectorBase [2],
-			.5f * vectorBase [0] + -0.4f * vectorBase [2]
-		};
-
-		Vector3 newOffset = (left) ? offsets [0] : offsets [1];
-		left = !left;
-
-		GameObject bullet = Instantiate (_bulletPrefab, _playerRigidbody.position + newOffset, Quaternion.identity) as GameObject;
-		Bullet bulletScript = bullet.GetComponent<Bullet> ();
-
-		bulletScript.originalDirection = vectorBase [2];
-
-		bulletScript.owner = this;
-		bulletScript.manager = m_Manager;
 	}
 
 	public void SetDefaults() {

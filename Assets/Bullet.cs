@@ -6,7 +6,7 @@ public class Bullet : MonoBehaviour {
 	public int damage = 20;
 	public float speed = 100f;
 	public Vector3 originalDirection;
-	public PlayerController owner;
+	public PlayerWeapons owner;
 	public PlayerManager manager;
 
 	private void Start() {

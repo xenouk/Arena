@@ -27,14 +27,14 @@ public class PlayerManager {
 	public int m_LocalPlayerID;               // The player localID (if there is more than 1 player on the same machine)
 
 	public PlayerController m_Movement;       // References to various objects for control during the different game phases.
-	public PlayerSubWeapons m_SubWeapons;
+	public PlayerWeapons m_Weapons;
 	public PlayerHealth m_Health;
 	public PlayerSetup m_Setup;
 
 	public void Setup() {
 		// Get references to the components.
 		m_Movement = m_Instance.GetComponent<PlayerController> ();
-		m_SubWeapons = m_Instance.GetComponent<PlayerSubWeapons> ();
+		m_Weapons = m_Instance.GetComponent<PlayerWeapons> ();
 		m_Health = m_Instance.GetComponent<PlayerHealth> ();
 		m_Setup = m_Instance.GetComponent<PlayerSetup> ();
 
@@ -44,7 +44,8 @@ public class PlayerManager {
 		//Set a reference to that amanger in the health script, to disable control when dying
 		m_Health.m_Manager = this;
 		m_Movement.m_Manager = this;
-		m_SubWeapons.m_Manager = this;
+		m_Weapons.m_Manager = this;
+		m_Weapons._playerController = m_Movement;
 
 		// Set the player numbers to be consistent across the scripts.
 		m_Movement.m_PlayerNumber = m_PlayerNumber;
@@ -61,13 +62,13 @@ public class PlayerManager {
 	// Used during the phases of the game where the player shouldn't be able to control their tank.
 	public void DisableControl() {
 		m_Movement.enabled = false;
-		m_SubWeapons.enabled = false;
+		m_Weapons.enabled = false;
 	}
 		
 	// Used during the phases of the game where the player should be able to control their tank.
 	public void EnableControl() {
 		m_Movement.enabled = true;
-		m_SubWeapons.enabled = true;
+		m_Weapons.enabled = true;
 	}
 
 	public string GetName() {
@@ -91,6 +92,7 @@ public class PlayerManager {
 	public void Reset() {
 		m_Movement.SetDefaults ();
 		m_Health.SetDefaults ();
+		m_Weapons.SetDefaults ();
 
 		if (m_Movement.hasAuthority) {
 			m_Movement._playerRigidbody.position = m_SpawnPoint.position;

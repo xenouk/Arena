@@ -5,7 +5,7 @@ public class FireBall : MonoBehaviour {
 	public int damage = 100;
 	public float speed = 100f;
 	public Vector3 originalDirection;
-	public PlayerSubWeapons owner;
+	public PlayerWeapons owner;
 	public PlayerManager manager;
 	public GameObject m_Explosion;
 
@@ -16,7 +16,7 @@ public class FireBall : MonoBehaviour {
 	}
 
 	void OnTriggerEnter (Collider other){
-		if (other.gameObject == owner.gameObject || other.CompareTag("Floor"))
+		if (other.gameObject == owner.gameObject)
 			return;
 
 		var playerHealth = other.GetComponent<PlayerHealth> ();

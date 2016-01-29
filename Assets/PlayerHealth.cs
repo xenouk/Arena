@@ -71,6 +71,9 @@ public class PlayerHealth : NetworkBehaviour {
 	}
 
 	public void AddShield() {
+		if (!isServer || !m_IsAlive)
+			return;
+		
 		m_CurrentShield = m_BaseShield;
 	}
 

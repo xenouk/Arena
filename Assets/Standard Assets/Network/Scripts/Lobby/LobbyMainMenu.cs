@@ -15,6 +15,7 @@ namespace UnityStandardAssets.Network
         public InputField ipInput;
         public InputField matchNameInput;
 		public Dropdown matchMode;
+		public Dropdown LocalMatchMode;
 
         public void OnEnable() {
 			lobbyManager.topPanel.ToggleVisibility (true);
@@ -27,6 +28,7 @@ namespace UnityStandardAssets.Network
 		}
 
         public void OnClickHost() {
+			lobbyManager.currentMatchValue = LocalMatchMode.value;
 			lobbyManager.StartHost ();
 		}
 

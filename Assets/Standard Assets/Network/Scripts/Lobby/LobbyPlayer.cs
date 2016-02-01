@@ -17,6 +17,7 @@ namespace UnityStandardAssets.Network
         //used on server to avoid assigning the same color to two player
         static List<int> _colorInUse = new List<int>();
 
+		public Button backButton;
         public Button colorButton;
         public InputField nameInput;
         public Button readyButton;
@@ -142,6 +143,10 @@ namespace UnityStandardAssets.Network
 
 			readyButton.onClick.RemoveAllListeners ();
 			readyButton.onClick.AddListener (OnReadyClicked);
+			
+			if (backButton == null) {
+				backButton = GameObject.FindWithTag ("BackButton").GetComponent<Button> ();
+			}
 
 			//OnColorClicked ();
 		}
@@ -154,6 +159,9 @@ namespace UnityStandardAssets.Network
 				textComponent.text = "READY";
 				textComponent.color = ReadyColor;
 				readyButton.interactable = false;
+
+				if (isLocalPlayer)
+					backButton.interactable = false;
 			} else {
 				ChangeReadyButtonColor (isLocalPlayer ? JoinColor : NotReadyColor);
 
@@ -204,6 +212,9 @@ namespace UnityStandardAssets.Network
 
 			if (countdown == 0)
 				LobbyManager.s_Singleton.infoPanel.gameObject.SetActive (false);
+
+			if (countdown < 0 && isLocalPlayer)
+				backButton.interactable = true;
 		}
 
         //====== Server Command
@@ -257,6 +268,9 @@ namespace UnityStandardAssets.Network
 					break;
 				}
 			}
+
+			if (isLocalPlayer)
+				backButton.interactable = true;
 		}
     }
 }

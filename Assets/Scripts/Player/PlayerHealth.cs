@@ -18,6 +18,7 @@ public class PlayerHealth : NetworkBehaviour {
 	public GameObject m_Shield;
 	public BoxCollider m_Collider; 
 	public PlayerManager m_Manager; 
+	public PlayerWeapons m_Weapons;
 
 	[SyncVar(hook = "OnCurrentHealthChanged")]
 	private int m_CurrentHealth;
@@ -31,6 +32,7 @@ public class PlayerHealth : NetworkBehaviour {
 		m_HealthSlider.value = m_CurrentHealth = m_BaseHealth;
 		m_HealthSlider.maxValue = m_BaseHealth;
 		m_Collider = GetComponent<BoxCollider> ();
+		m_Weapons = GetComponent<PlayerWeapons> ();
 	}
 
 	public void TakeDamage(int amount, PlayerManager from) {
@@ -102,7 +104,8 @@ public class PlayerHealth : NetworkBehaviour {
 		m_Model.SetActive (active);
 		m_HealthCanvas.SetActive (active);
 		m_NameCanvas.SetActive (active);
-
+		m_Weapons.enabled = active;
+		m_Weapons.SetDefaults ();
 		if (active) m_Manager.EnableControl();
 		else m_Manager.DisableControl();
 	}

@@ -49,7 +49,6 @@ public class RoundMatchManager {
 			if (GameManager.m_Players [i].m_Models.activeSelf)
 				numTanksLeft++;
 		}
-
 		// If there are one or fewer tanks remaining return true, otherwise return false.
 		return numTanksLeft <= 1;
 	}
@@ -115,7 +114,7 @@ public class RoundMatchManager {
 		}
 
 		if (GameManager.s_Instance.m_GameWinner != null)
-			message += "\n\n<size=20 > Return to lobby in " + waitTime + "\nPress Fire to get ready</size>";
+			message += "\n\n<size=20 > Return to lobby in " + waitTime + "\n</size>";
 
 		return message;
 	}

@@ -45,7 +45,9 @@
     </Reference>
   </ItemGroup>
   <ItemGroup>
+     <Compile Include="Assets\Mine.cs" />
      <Compile Include="Assets\Scripts\CameraControl.cs" />
+     <Compile Include="Assets\Scripts\EventSystemChecker.cs" />
      <Compile Include="Assets\Scripts\Managers\DeadMatchManager.cs" />
      <Compile Include="Assets\Scripts\Managers\GameManager.cs" />
      <Compile Include="Assets\Scripts\Managers\PlayerLobbyHook.cs" />
@@ -58,12 +60,14 @@
      <Compile Include="Assets\Scripts\Player\PlayerManager.cs" />
      <Compile Include="Assets\Scripts\Player\PlayerSetup.cs" />
      <Compile Include="Assets\Scripts\Player\PlayerWeapons.cs" />
+     <Compile Include="Assets\Scripts\Steamwork.NET\SteamManager.cs" />
      <Compile Include="Assets\Scripts\UIDirectionControl.cs" />
      <Compile Include="Assets\Scripts\Weapons\Bullet.cs" />
      <Compile Include="Assets\Scripts\Weapons\FireBall.cs" />
      <Compile Include="Assets\Scripts\Weapons\Tower.cs" />
+     <Compile Include="Assets\SteamScript.cs" />
      <Compile Include="Assets\Test.cs" />
-     <None Include="Assets\Standard Assets\Network\Instruction.txt" />
+     <None Include="Assets\Plugins\Steamworks.NET\redist\steam_appid.txt" />
  <Reference Include="UnityEngine.UI">
  <HintPath>C:/Program Files/Unity/Editor/Data/UnityExtensions/Unity/GUISystem/UnityEngine.UI.dll</HintPath>
  </Reference>

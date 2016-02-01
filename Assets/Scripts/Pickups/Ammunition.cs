@@ -14,7 +14,7 @@ public class Ammunition : NetworkBehaviour {
 		var playerWeapon = other.GetComponent<PlayerWeapons> ();
 
 		if (playerWeapon != null) {
-			if (playerWeapon._SlotAEmpty || playerWeapon._SlotBEmpty) {
+			if (playerWeapon._SlotEmpty) {
 				switch (m_WeaponName) {
 				case "Laser":
 					playerWeapon.AddLaserAmount ();
@@ -27,6 +27,9 @@ public class Ammunition : NetworkBehaviour {
 					break;
 				case "Tower":
 					playerWeapon.AddTowerAmount ();
+					break;
+				case "Mine":
+					playerWeapon.AddMineAmount ();
 					break;
 				}
 

@@ -28,6 +28,8 @@ public class GameManager : NetworkBehaviour {
 	[HideInInspector]
 	[SyncVar]
 	public bool m_GameIsFinished = false;
+	[SyncVar]
+	private bool _SpawningPickups = false;
 
 	//Various UI references to hide the screen between rounds.
 	[Space]
@@ -63,6 +65,8 @@ public class GameManager : NetworkBehaviour {
 		// Create the delays so they only have to be made once.
 		m_StartWait = new WaitForSeconds (m_StartDelay);
 		m_EndWait = new WaitForSeconds (m_EndDelay);
+
+		RpcSetMatchMode ();
 
 		// Once the tanks have been created and the camera is using them as targets, start the game.
 		switch (m_MatchMode) {
@@ -184,9 +188,9 @@ public class GameManager : NetworkBehaviour {
 		yield return StartCoroutine (m_DeadMatchManager.RoundEnding ());
 
 		m_GameIsFinished = true;
-		float leftWaitTime = 10.0f;
+		float leftWaitTime = 5.0f;
 		bool allAreReady = false;
-		int flooredWaitTime = 10;
+		int flooredWaitTime = 5;
 
 		while (leftWaitTime > 0.0f && !allAreReady) {
 			yield return null;
@@ -220,7 +224,7 @@ public class GameManager : NetworkBehaviour {
 
 	public IEnumerator ClientRoundStartingFade() {
 		float elapsedTime = 0.0f;
-		float wait = m_StartDelay - 1f;
+		float wait = m_StartDelay - 0.5f;
 
 		yield return null;
 
@@ -238,11 +242,27 @@ public class GameManager : NetworkBehaviour {
 
 			yield return null;
 		}
+
+		switch (m_MatchMode) {
+		case 0:
+			m_MessageText.text = "DEAD MATCH!";
+			break;
+		case 1:
+			// Increment the round number and display text showing the players what round it is.
+			m_MessageText.text = "ROUND " + m_RoundNumber;
+			break;
+		}
+
+		if (isServer && !_SpawningPickups) {
+			StartCoroutine (SpawnPickups ());
+		}
+		
 	}
 
 	private IEnumerator SpawnPickups(){
 		const float MIN_TIME = 2.0f;
-		const float MAX_TIME = 3.0f;
+		const float MAX_TIME = 5.0f;
+		_SpawningPickups = true;
 
 		while (!m_GameIsFinished) {
 			yield return new WaitForSeconds(Random.Range(MIN_TIME, MAX_TIME));
@@ -263,6 +283,11 @@ public class GameManager : NetworkBehaviour {
 	}
 
 	[ClientRpc]
+	public void RpcSetMatchMode() {
+		m_MatchMode = m_MatchMode;
+	}
+
+	[ClientRpc]
 	public void RpcRoundStarting() {
 		// As soon as the round starts reset the tanks and make sure they can't move.
 		ResetAllPlayers ();
@@ -272,18 +297,17 @@ public class GameManager : NetworkBehaviour {
 		m_CameraControl.SetAppropriatePositionAndSize ();
 		m_RoundNumber++;
 
-		switch (m_MatchMode) {
-		case 0:
-			m_MessageText.text = "DEAD MATCH!";
-			break;
-		case 1:
-			// Increment the round number and display text showing the players what round it is.
-			m_MessageText.text = "ROUND " + m_RoundNumber;
-			break;
-		}
-		if(isServer)
-			StartCoroutine (SpawnPickups ());
 		StartCoroutine (ClientRoundStartingFade ());
+
+		if (isServer) {
+			if(GameObject.FindGameObjectsWithTag("Pickup").Length > 0)
+				foreach (GameObject go in GameObject.FindGameObjectsWithTag("Pickup"))
+					NetworkServer.Destroy (go);
+		}
+
+		if(GameObject.FindGameObjectsWithTag("Weapon").Length > 0)
+			foreach (GameObject go in GameObject.FindGameObjectsWithTag("Weapon"))
+				Destroy (go);
 	}
 
 	[ClientRpc]

@@ -18,7 +18,7 @@ public class DeadMatchManager {
 		// Go through all the tanks...
 		for (int i = 0; i < GameManager.m_Players.Count; i++) {
 			// ... and a tank got max kills then return true
-			if (GameManager.m_Players [i].GetKills > 4) {
+			if (GameManager.m_Players [i].GetKills > 0) {
 				GameManager.s_Instance.m_GameWinner = GameManager.m_Players [i];
 				return true;
 			}
@@ -56,7 +56,7 @@ public class DeadMatchManager {
 		}
 
 		if (GameManager.s_Instance.m_GameWinner != null)
-			message += "\n\n<size=20 > Return to lobby in " + waitTime + "\nPress Fire to get ready</size>";
+			message += "\n\n<size=20 > Return to lobby in " + waitTime + "</size>";
 
 		return message;
 	}

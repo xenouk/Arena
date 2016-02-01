@@ -10,8 +10,11 @@ public class PlayerWeapons : NetworkBehaviour {
 	public Rigidbody _playerRigidbody;
 	private PlayerHealth _playerHealth;
 	public PlayerController _playerController;
-	float timer;
-	bool left;
+	bool _left;
+	bool _mainWeapon = false;
+	bool _subWeapon = false;
+	delegate IEnumerator SlotDelegate();
+	SlotDelegate slotDelegate;
 
 	[Header("Laser")]
 	public Sprite m_LaserIcon;
@@ -22,7 +25,6 @@ public class PlayerWeapons : NetworkBehaviour {
 	public int m_LaserBaseAmount = 10;
 	[SyncVar(hook = "OnLaserAmountChange")] 
 	public float m_LaserAmount;
-	[SyncVar]public int m_LaserSlot;
 
 	[Header("Fire Ball")]
 	public Sprite m_FireBallIcon;
@@ -31,51 +33,58 @@ public class PlayerWeapons : NetworkBehaviour {
 	public int m_FireBallBaseAmount = 10;
 	[SyncVar(hook = "OnFireBallAmountChange")] 
 	public int m_FireBallAmount;
-	[SyncVar]public int m_FireBallSlot;
 
-	[Header("Bullet")]
+	[Header("Splash Bullet")]
 	public Sprite m_BulletIcon;
 	public GameObject m_bulletPrefab;
 	public float m_BulletFireRate = 0.2f;
 	public int m_BulletBaseAmount = 15;
 	[SyncVar(hook = "OnBulletAmountChange")] 
 	public int m_BulletAmount;
-	[SyncVar]public int m_BulletSlot;
 
 	[Header("Tower")]
 	public Sprite m_TowerIcon;
 	public GameObject m_TowerPrefab;
 	[SyncVar(hook = "OnTowerAmountChange")] 
 	public bool m_hasTower;
-	[SyncVar]public int m_TowerSlot;
+
+	[Header("Mine")]
+	public Sprite m_MineIcon;
+	public GameObject m_MinePrefab;
+	[SyncVar(hook = "OnMineAmountChange")] 
+	public bool m_hasMine;
 
 	[Header("GUI")]
-	[SyncVar]public bool _SlotAEmpty = true;
-	[SyncVar]public bool _SlotBEmpty = true;
-	private Text[] _WeaponAmounts = new Text[2];
-	private Image[] _WeaponIcons = new Image[2];
-
-	delegate void SlotDelegate();
-	SlotDelegate slotDelegate;
-	SlotDelegate slotADelegate;
-	SlotDelegate slotBDelegate;
+	[SyncVar]public bool _SlotEmpty = true;
+	private Text _WeaponAmounts;
+	private Image _WeaponIcons;
 
 	// Use this for initialization
 	private void Awake() {
 		_playerRigidbody = GetComponent<Rigidbody>();
+		_WeaponAmounts = GameObject.FindGameObjectWithTag ("WeaponAmount").GetComponent<Text> ();
+		_WeaponIcons = GameObject.FindGameObjectWithTag ("WeaponIcon").GetComponent<Image> ();
 	}
 
 	public override void OnStartLocalPlayer () {
 		base.OnStartLocalPlayer ();
 		_playerHealth = GetComponent<PlayerHealth> ();
-		for (int i = 0; i < _WeaponAmounts.Length; i++) {
-			_WeaponAmounts [i] = GameObject.FindGameObjectsWithTag ("WeaponAmount") [i].GetComponent<Text> ();
-			_WeaponIcons [i] = GameObject.FindGameObjectsWithTag ("WeaponIcon") [i].GetComponent<Image> ();
-		}
+
 	}
 
 	public void SetDefaults(){
+		slotDelegate = null;
+		_SlotEmpty = true;
+		_WeaponAmounts.text = "";
+		_WeaponIcons.enabled = false;
+		_mainWeapon = false;
+		_subWeapon = false;
 		m_LaserLine.enabled = false;
+		m_hasTower = false;
+		m_hasMine = false;
+		m_BulletAmount = 0;
+		m_LaserAmount = 0;
+		m_FireBallAmount = 0;
 	}
 
 	private void OnDisable(){
@@ -87,58 +96,84 @@ public class PlayerWeapons : NetworkBehaviour {
 		if (!isLocalPlayer || !_playerHealth.m_IsAlive)
 			return;
 
-		timer -= Time.deltaTime;
-
-		if (Input.GetKeyDown (KeyCode.LeftShift)) {
-			slotDelegate = (slotDelegate == slotADelegate) ? slotBDelegate : slotADelegate;
+		if (Input.GetMouseButtonDown (0)  && !_mainWeapon) {
+			StartCoroutine (ShootBullet ());
 		}
 
-		if (Input.GetMouseButton (0)) {
-			if (timer <= 0) {
-				CmdFireBullet ();
-				timer = m_BulletFireRate;
-			}
-		}
-
-		if (Input.GetMouseButton (1)) {
+		if (Input.GetMouseButtonDown (1) && !_subWeapon) {
 			if(slotDelegate != null)
-				slotDelegate ();
-		}
-
-		if (_SlotAEmpty && _WeaponIcons [0].sprite != null) {
-			_WeaponAmounts [0].text = "";
-			_WeaponIcons [0].sprite = null;
-		}else if (_SlotBEmpty && _WeaponIcons [1].sprite != null) {
-			_WeaponAmounts [1].text = "";
-			_WeaponIcons [1].sprite = null;
+				StartCoroutine(slotDelegate ());
 		}
 
 		if (Input.GetMouseButtonUp (1))
 			CmdStopLaser ();
+
+		if (_SlotEmpty) {
+			_WeaponAmounts.text = "";
+			_WeaponIcons.enabled = false;
+		} else {
+			_WeaponIcons.enabled = true;
+		}
 	}
 
-	void ShootFireBall(){
-		if (timer <= 0 && m_FireBallAmount > 0) {
+	IEnumerator ShootBullet(){
+		while (Input.GetMouseButton (0)) {
+			_mainWeapon = true;
+			CmdFireBullet ();
+			yield return new WaitForSeconds(m_BulletFireRate);
+			_mainWeapon = false;
+		}
+	}
+
+	IEnumerator ShootFireBall(){
+		while (Input.GetMouseButton (1)) {
+			_subWeapon = true;
 			CmdFireBall ();
-			timer = m_FireBallRate;
+			yield return new WaitForSeconds(m_FireBallRate);
+			_subWeapon = false;
 		}
 	}
 
-	void ShootLaser(){
-		if (m_LaserAmount > 0)
-			CmdFireLaser ();
-	}
-
-	void ShootSplashBullet(){
-		if (timer <= 0 && m_BulletAmount > 0) {
-			CmdFireSplashBullet ();
-			timer = m_BulletFireRate;
+	IEnumerator ShootLaser(){
+		while (Input.GetMouseButton (1)) {
+			_subWeapon = true;
+			if (m_LaserAmount > 0)
+				CmdFireLaser ();
+			yield return null;
+			_subWeapon = false;
 		}
 	}
 
-	void PutTower(){
-		if (m_hasTower) {
-			CmdPutTower ();
+	IEnumerator ShootSplashBullet(){
+		while (Input.GetMouseButton (1)) {
+			_subWeapon = true;
+			if (m_BulletAmount > 0) {
+				CmdFireSplashBullet ();
+			}
+			yield return new WaitForSeconds(m_BulletFireRate);
+			_subWeapon = false;
+		}
+	}
+
+	IEnumerator PutTower(){
+		while (Input.GetMouseButton (1)) {
+			_subWeapon = true;
+			if (m_hasTower) {
+				CmdPutTower ();
+			}
+			yield return new WaitForSeconds (1f);
+			_subWeapon = false;
+		}
+	}
+
+	IEnumerator PutMine(){
+		while (Input.GetMouseButton (1)) {
+			_subWeapon = true;
+			if (m_hasMine) {
+				CmdPutMine ();
+			}
+			yield return new WaitForSeconds (1f);
+			_subWeapon = false;
 		}
 	}
 
@@ -168,8 +203,8 @@ public class PlayerWeapons : NetworkBehaviour {
 			.5f * vectorBase [0] + -0.4f * vectorBase [2]
 		};
 
-		Vector3 newOffset = (left) ? offsets [0] : offsets [1];
-		left = !left;
+		Vector3 newOffset = (_left) ? offsets [0] : offsets [1];
+		_left = !_left;
 
 		GameObject bullet = Instantiate (m_bulletPrefab, _playerRigidbody.position + newOffset, Quaternion.identity) as GameObject;
 		Bullet bulletScript = bullet.GetComponent<Bullet> ();
@@ -191,14 +226,9 @@ public class PlayerWeapons : NetworkBehaviour {
 
 	void OnFireBallAmountChange(int amount){
 		if (m_FireBallAmount <= 0) {
-			if (_SlotAEmpty) {
-				m_FireBallSlot = 0;
-				_SlotAEmpty = false;
-				slotDelegate = slotADelegate = ShootFireBall;
-			} else if (_SlotBEmpty) {
-				m_FireBallSlot = 1;
-				_SlotBEmpty = false;
-				slotDelegate = slotBDelegate = ShootFireBall;
+			if (_SlotEmpty) {
+				_SlotEmpty = false;
+				slotDelegate = ShootFireBall;
 			}
 		}
 
@@ -206,17 +236,12 @@ public class PlayerWeapons : NetworkBehaviour {
 
 		if (amount > 0) {
 			if (isLocalPlayer) {
-				_WeaponIcons [m_FireBallSlot].sprite = m_FireBallIcon;
-				_WeaponAmounts [m_FireBallSlot].text = Mathf.FloorToInt(m_FireBallAmount).ToString ();
+				_WeaponIcons.sprite = m_FireBallIcon;
+				_WeaponAmounts.text = Mathf.FloorToInt(m_FireBallAmount).ToString ();
 			}
 		} else {
-			if (m_FireBallSlot == 0) {
-				_SlotAEmpty = true;
-			} else if (m_FireBallSlot == 1) {
-				_SlotBEmpty = true;
-			}
-
-			slotDelegate = (!_SlotAEmpty)?slotADelegate:slotBDelegate;
+			_SlotEmpty = true;
+			slotDelegate = null;
 		}
 	}
 
@@ -234,6 +259,9 @@ public class PlayerWeapons : NetworkBehaviour {
 	}
 
 	public void CreateFireBall() {
+		if (m_FireBallAmount < 0)
+			return;
+
 		m_FireBallAmount--;
 
 		Vector3 offsets = _playerRigidbody.rotation * Vector3.forward;
@@ -258,14 +286,9 @@ public class PlayerWeapons : NetworkBehaviour {
 
 	void OnLaserAmountChange(float amount){
 		if (m_LaserAmount <= 0) {
-			if (_SlotAEmpty) {
-				m_LaserSlot = 0;
-				_SlotAEmpty = false;
-				slotDelegate = slotADelegate = ShootLaser;
-			} else if (_SlotBEmpty) {
-				m_LaserSlot = 1;
-				_SlotBEmpty = false;
-				slotDelegate = slotBDelegate = ShootLaser;
+			if (_SlotEmpty) {
+				_SlotEmpty = false;
+				slotDelegate = ShootLaser;
 			}
 		}
 
@@ -273,21 +296,17 @@ public class PlayerWeapons : NetworkBehaviour {
 
 		if (amount > 0) {
 			if (isLocalPlayer) {
-				_WeaponIcons [m_LaserSlot].sprite = m_LaserIcon;
-				_WeaponAmounts [m_LaserSlot].text = Mathf.FloorToInt(m_LaserAmount).ToString ();
+				_WeaponIcons.sprite = m_LaserIcon;
+				_WeaponAmounts.text = Mathf.FloorToInt(m_LaserAmount).ToString ();
 			}
 		} else {
 			if (isLocalPlayer) {
-				_WeaponIcons [m_LaserSlot].sprite = null;
-				_WeaponAmounts [m_LaserSlot].text = "";
+				_WeaponIcons.sprite = null;
+				_WeaponAmounts.text = "";
 			}
 
-			if (m_LaserSlot == 0) {
-				_SlotAEmpty = true;
-			} else if (m_LaserSlot == 1) {
-				_SlotBEmpty = true;
-			}
-			slotDelegate = (!_SlotAEmpty)?slotADelegate:slotBDelegate;
+			_SlotEmpty = true;
+			slotDelegate = null;
 			CmdStopLaser ();
 		}
 	}
@@ -317,6 +336,9 @@ public class PlayerWeapons : NetworkBehaviour {
 	}
 
 	void FireLaser(){
+		if (m_LaserAmount < 0)
+			return;
+
 		m_LaserLine.enabled = true;
 		m_LaserAmount -= Time.deltaTime * m_LaserDamageRate;
 
@@ -348,14 +370,9 @@ public class PlayerWeapons : NetworkBehaviour {
 
 	void OnBulletAmountChange(int amount){
 		if (m_BulletAmount <= 0) {
-			if (_SlotAEmpty) {
-				m_BulletSlot = 0;
-				_SlotAEmpty = false;
-				slotDelegate = slotADelegate = ShootSplashBullet;
-			} else if (_SlotBEmpty) {
-				m_BulletSlot = 1;
-				_SlotBEmpty = false;
-				slotDelegate = slotBDelegate = ShootSplashBullet;
+			if (_SlotEmpty) {
+				_SlotEmpty = false;
+				slotDelegate = ShootSplashBullet;
 			}
 		}
 
@@ -363,17 +380,12 @@ public class PlayerWeapons : NetworkBehaviour {
 
 		if (amount > 0) {
 			if (isLocalPlayer) {
-				_WeaponIcons [m_BulletSlot].sprite = m_BulletIcon;
-				_WeaponAmounts [m_BulletSlot].text = Mathf.FloorToInt(m_BulletAmount).ToString ();
+				_WeaponIcons.sprite = m_BulletIcon;
+				_WeaponAmounts.text = Mathf.FloorToInt(m_BulletAmount).ToString ();
 			}
 		} else {
-			if (m_BulletSlot == 0) {
-				_SlotAEmpty = true;
-			} else if (m_BulletSlot == 1) {
-				_SlotBEmpty = true;
-			}
-
-			slotDelegate = (!_SlotAEmpty)?slotADelegate:slotBDelegate;
+			_SlotEmpty = true;
+			slotDelegate = null;
 		}
 	}
 
@@ -391,6 +403,9 @@ public class PlayerWeapons : NetworkBehaviour {
 	}
 
 	public void CreateSplashBullet() {
+		if (m_BulletAmount < 0)
+			return;
+		
 		m_BulletAmount--;
 
 		Vector3[] vectorBase = {
@@ -439,27 +454,17 @@ public class PlayerWeapons : NetworkBehaviour {
 		m_hasTower = active;
 
 		if (m_hasTower) {
-			if (_SlotAEmpty) {
-				m_TowerSlot = 0;
-				_SlotAEmpty = false;
-				slotDelegate = slotADelegate = PutTower;
-			} else if (_SlotBEmpty) {
-				m_TowerSlot = 1;
-				_SlotBEmpty = false;
-				slotDelegate = slotBDelegate = PutTower;
+			if (_SlotEmpty) {
+				_SlotEmpty = false;
+				slotDelegate = PutTower;
 			}
 
 			if (isLocalPlayer) {
-				_WeaponIcons [m_TowerSlot].sprite = m_TowerIcon;
+				_WeaponIcons.sprite = m_TowerIcon;
 			}
 		} else {
-			if (m_TowerSlot == 0) {
-				_SlotAEmpty = true;
-			} else if (m_TowerSlot == 1) {
-				_SlotBEmpty = true;
-			}
-
-			slotDelegate = (!_SlotAEmpty) ? slotADelegate : slotBDelegate;
+			_SlotEmpty = true;
+			slotDelegate = null;
 		}
 	}
 
@@ -477,6 +482,9 @@ public class PlayerWeapons : NetworkBehaviour {
 	}
 
 	public void CreateTower() {
+		if (!m_hasTower)
+			return;
+		
 		m_hasTower = false;
 
 
@@ -485,6 +493,60 @@ public class PlayerWeapons : NetworkBehaviour {
 
 		towerScript.owner = this;
 		towerScript.m_Manager = m_Manager;
+	}
+	#endregion
+
+	#region Put Mine
+	public void AddMineAmount(){
+		if (!isServer)
+			return;
+
+		m_hasMine = true;
+	}
+
+	void OnMineAmountChange(bool active){
+
+		m_hasMine = active;
+
+		if (m_hasMine) {
+			if (_SlotEmpty) {
+				_SlotEmpty = false;
+				slotDelegate = PutMine;
+			}
+
+			if (isLocalPlayer) {
+				_WeaponIcons.sprite = m_MineIcon;
+			}
+		} else {
+			_SlotEmpty = true;
+			slotDelegate = null;
+		}
+	}
+
+	[Command]
+	public void CmdPutMine() {
+		if (!isClient) //avoid to create bullet twice (here & in Rpc call) on hosting client
+			CreateMine ();
+
+		RpcPutMine ();
+	}
+
+	[ClientRpc]
+	public void RpcPutMine() {
+		CreateMine ();
+	}
+
+	public void CreateMine() {
+		if (!m_hasMine)
+			return;
+		
+		m_hasMine = false;
+
+		GameObject mine = Instantiate (m_MinePrefab, _playerRigidbody.position, Quaternion.identity) as GameObject;
+		Mine mineScript = mine.GetComponent<Mine> ();
+
+		mineScript.owner = this;
+		mineScript.m_Manager = m_Manager;
 	}
 	#endregion
 }

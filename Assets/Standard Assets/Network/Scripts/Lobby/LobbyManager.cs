@@ -157,7 +157,6 @@ namespace UnityStandardAssets.Network
 		}
 
         public void QuitLobbyToMenu() {
-			//this.matchMaker.DropConnection ((NetworkID)_currentMatchID, (NodeID)_currentNodeID, OnConnectionDrop);
 			StopClient ();
 			if (isMatchmaking) {
 				StopMatchMaker ();
@@ -209,9 +208,7 @@ namespace UnityStandardAssets.Network
 		}
 
 		/**
-         * 
          *  When this Client create a Server 
-         * 
          **/
 		public override void OnMatchCreate(CreateMatchResponse matchInfo) {
 			base.OnMatchCreate (matchInfo);
@@ -220,9 +217,7 @@ namespace UnityStandardAssets.Network
 
 		//###################### Mine ###############################
 		/**
-         * 
          *  When this Client joins a Server
-         * 
          **/
 		public void OnMatchJoined(JoinMatchResponse matchInfo){
 			//base.OnMatchJoined (matchInfo);
@@ -245,9 +240,7 @@ namespace UnityStandardAssets.Network
 		}
 
 		/**
-         * 
          *  When a match is destroyed 
-         * 
          **/
         public void OnMatchDestroyed(BasicResponse resp) {
 			if (_disconnectServer) {
@@ -256,16 +249,8 @@ namespace UnityStandardAssets.Network
 			}
 		}
 
-		//###################### Mine ###############################
-		public void OnConnectionDrop(BasicResponse resp) {	
-			if(resp.success)
-				print (true);
-		}
-
 		/**
-		 * 
 		 *  Server callbacks
-		 * 
 		 **/
 
         //We want to disable the button JOIN if we don't have enough player
@@ -309,9 +294,7 @@ namespace UnityStandardAssets.Network
 
         static protected float _matchStartCountdown = 5.0f;
 		/**
-		 * 
 		 *  When all players are ready
-		 * 
 		 **/
         public override void OnLobbyServerPlayersReady() {
 			bool temp = true;
@@ -362,7 +345,7 @@ namespace UnityStandardAssets.Network
 					(lobbySlots [i] as LobbyPlayer).RpcUpdateCountdown (0);
 				}
 			}
-
+			
 			ServerChangeScene (playScene);
 		}
 

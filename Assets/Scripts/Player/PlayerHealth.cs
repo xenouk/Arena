@@ -50,7 +50,7 @@ public class PlayerHealth : NetworkBehaviour {
 			from.GetKills++;
 			GameManager.s_Instance.RpcUpdateStatus ();
 			m_CurrentHealth = m_BaseHealth;
-			SetPlayerctive (false);
+			RpcSetPlayerctive (false);
 			switch (GameManager.m_MatchMode) {
 			case 0:
 				StartCoroutine(SetRespawn());

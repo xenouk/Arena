@@ -39,6 +39,7 @@ public class GameManager : NetworkBehaviour {
 	public GameObject[] m_StatusPanels;
 	public Text[] m_StatusNames;
 	public Text[] m_StatusKills;
+	public CanvasGroup m_WeaponCanvas;
 
 	[HideInInspector]
 	public int m_RoundNumber;                  // Which round the game is currently on.
@@ -65,8 +66,6 @@ public class GameManager : NetworkBehaviour {
 		// Create the delays so they only have to be made once.
 		m_StartWait = new WaitForSeconds (m_StartDelay);
 		m_EndWait = new WaitForSeconds (m_EndDelay);
-
-		RpcSetMatchMode ();
 
 		// Once the tanks have been created and the camera is using them as targets, start the game.
 		switch (m_MatchMode) {
@@ -210,7 +209,7 @@ public class GameManager : NetworkBehaviour {
 				RpcUpdateMessage (message);
 			}
 		}
-
+			
 		LobbyManager.s_Singleton.ServerReturnToLobby ();
 	}
 
@@ -242,6 +241,8 @@ public class GameManager : NetworkBehaviour {
 
 			yield return null;
 		}
+
+		m_MessageText.color = Color.white;
 
 		switch (m_MatchMode) {
 		case 0:
@@ -283,11 +284,6 @@ public class GameManager : NetworkBehaviour {
 	}
 
 	[ClientRpc]
-	public void RpcSetMatchMode() {
-		m_MatchMode = m_MatchMode;
-	}
-
-	[ClientRpc]
 	public void RpcRoundStarting() {
 		// As soon as the round starts reset the tanks and make sure they can't move.
 		ResetAllPlayers ();
@@ -298,16 +294,6 @@ public class GameManager : NetworkBehaviour {
 		m_RoundNumber++;
 
 		StartCoroutine (ClientRoundStartingFade ());
-
-		if (isServer) {
-			if(GameObject.FindGameObjectsWithTag("Pickup").Length > 0)
-				foreach (GameObject go in GameObject.FindGameObjectsWithTag("Pickup"))
-					NetworkServer.Destroy (go);
-		}
-
-		if(GameObject.FindGameObjectsWithTag("Weapon").Length > 0)
-			foreach (GameObject go in GameObject.FindGameObjectsWithTag("Weapon"))
-				Destroy (go);
 	}
 
 	[ClientRpc]
@@ -315,6 +301,8 @@ public class GameManager : NetworkBehaviour {
 		for (int i = 0; i < m_Players.Count; i++) {
 			m_StatusPanels[i].SetActive (active);
 			m_StatusNames[i].text = m_Players[i].GetName();
+			m_StatusNames [i].color = m_Players [i].m_PlayerColor;
+			m_StatusKills [i].color = m_Players [i].m_PlayerColor;
 		}
 	}
 
@@ -332,11 +320,26 @@ public class GameManager : NetworkBehaviour {
 
 		// Clear the text from the screen.
 		m_MessageText.text = string.Empty;
+		m_MessageText.color = Color.black;
+		// Display the weapon panel.
+		m_WeaponCanvas.alpha = 1;
 	}
 
 	[ClientRpc]
 	public void RpcRoundEnding() {
 		DisablePlayerControl ();
+		m_WeaponCanvas.alpha = 0;
+
+		if (isServer) {
+			if(GameObject.FindGameObjectsWithTag("Pickup").Length > 0)
+				foreach (GameObject go in GameObject.FindGameObjectsWithTag("Pickup"))
+					NetworkServer.Destroy (go);
+		}
+
+		if(GameObject.FindGameObjectsWithTag("Weapon").Length > 0)
+			foreach (GameObject go in GameObject.FindGameObjectsWithTag("Weapon"))
+				Destroy (go);
+		
 		StartCoroutine (ClientRoundEndingFade ());
 	}
 

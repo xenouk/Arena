@@ -29,6 +29,7 @@ namespace UnityStandardAssets.Network
         public Text statusInfo;
         public Text hostInfo;
 		public Text matchModeInfo;
+		public Texture2D m_Cursor;
 
         //used to disconnect a client properly when exiting the matchmaker
         public bool isMatchmaking = false;
@@ -129,6 +130,10 @@ namespace UnityStandardAssets.Network
 			hostInfo.text = host;
 		}
 
+		public void ExitGame() {
+			Application.Quit ();
+		}
+
 
         public delegate void BackButtonDelegate();
         public BackButtonDelegate backDelegate;
@@ -144,7 +149,9 @@ namespace UnityStandardAssets.Network
         public void BackToMenu() {
 			ChangeTo (mainMenuPanel);
 		}
-
+		/**
+		 * When the host leaves the lobby
+		 **/
         public void StopHostToMenu() {
 			if (isMatchmaking) {
 				this.matchMaker.DestroyMatch ((NetworkID)_currentMatchID, OnMatchDestroyed);
@@ -156,6 +163,9 @@ namespace UnityStandardAssets.Network
 			ChangeTo (mainMenuPanel);
 		}
 
+		/**
+		 * When the client leaves the lobby
+		 **/
         public void QuitLobbyToMenu() {
 			StopClient ();
 			if (isMatchmaking) {
@@ -165,20 +175,24 @@ namespace UnityStandardAssets.Network
 			ChangeTo (mainMenuPanel);
 		}
 
+		/**
+		 * When the host leaves the lobby (Local)
+		 **/
         public void StopServerClbk() {
 			StopServer ();
 			ChangeTo (mainMenuPanel);
 		}
 
+		/**
+		 * When the game finish and return to lobby
+		 **/
         public void StopGameClbk() {
 			SendReturnToLobby ();
 			ChangeTo (lobbyPanel);
 		}
 
         /**
-         * 
          *  Start Host a Game 
-         * 
          **/
         public override void OnStartHost() {
 			base.OnStartHost ();
@@ -282,10 +296,11 @@ namespace UnityStandardAssets.Network
 			}
 		}
 
+		/**
+		 *This hook allows you to apply state data from the lobby-player to the game-player.
+		 *Transfer player information to GameManager.
+		 **/
         public override bool OnLobbyServerSceneLoadedForPlayer(GameObject lobbyPlayer, GameObject gamePlayer) {
-			//This hook allows you to apply state data from the lobby-player to the game-player
-			//just subclass "LobbyHook" and add it to the lobby object.
-
 			if (_lobbyHooks)
 				_lobbyHooks.OnLobbyServerSceneLoadedForPlayer (this, lobbyPlayer, gamePlayer, currentMatchValue);
 
@@ -309,15 +324,13 @@ namespace UnityStandardAssets.Network
 					}
 				}
 			}
-
+			// Start the countdown
 			if(temp)
 				StartCoroutine (ServerCountdownCoroutine ());
 		}
 
 		/**
-		 * 
-		 *  Countdown management 
-		 * 
+		 *  Countdown for the game to start 
 		 **/
         public IEnumerator ServerCountdownCoroutine() {
 			float remainingTime = _matchStartCountdown;
@@ -350,9 +363,7 @@ namespace UnityStandardAssets.Network
 		}
 
 		/**
-		 * 
 		 *  Client callbacks -
-		 * 
 		 **/
         public override void OnClientDisconnect(NetworkConnection conn) {
 			base.OnClientDisconnect (conn);
@@ -362,6 +373,13 @@ namespace UnityStandardAssets.Network
         public override void OnClientError(NetworkConnection conn, int errorCode) {
 			ChangeTo (mainMenuPanel);
 			infoPanel.Display ("Cient error : " + (errorCode == 6 ? "timeout" : errorCode.ToString ()), "Close", null);
+		}
+
+		void OnLevelWasLoaded(int level){
+			if (level == 1)
+				Cursor.SetCursor (m_Cursor, Vector2.zero, CursorMode.Auto);
+			else
+				Cursor.SetCursor (null, Vector2.zero, CursorMode.Auto);
 		}
 
 		void FixedUpdate () {

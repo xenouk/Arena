@@ -4,13 +4,14 @@ using UnityEngine.Networking;
 
 public class Ammunition : NetworkBehaviour {
 	public string m_WeaponName;
+	public GameObject m_Particle;
 
 	void Start () {
-		Invoke ("AutoDestroy", 10f);
+		Invoke ("Destroy", 10f);
 	}
 
 	[ServerCallback]
-	void OnTriggerEnter (Collider other){
+	void OnTriggerEnter2D (Collider2D other){
 		var playerWeapon = other.GetComponent<PlayerWeapons> ();
 
 		if (playerWeapon != null) {
@@ -33,13 +34,16 @@ public class Ammunition : NetworkBehaviour {
 					break;
 				}
 
+				if (isServer)
+					NetworkServer.Spawn (Instantiate (m_Particle, transform.position, Quaternion.identity) as GameObject);
+				
 				NetworkServer.Destroy(gameObject);
 			}
 		}
 	}
 
 	[ServerCallback]
-	void AutoDestroy(){
+	void Destroy(){
 		NetworkServer.Destroy(gameObject);
 	}
 }

@@ -1,0 +1,1179 @@
+fileFormatVersion: 2
+guid: d258361d5d6eb4a4d900058d38ab44f3
+timeCreated: 1454518997
+licenseType: Free
+TextureImporter:
+  fileIDToRecycleName:
+    21300000: Bullets_Effects_0
+    21300002: Bullets_Effects_1
+    21300004: Bullets_Effects_2
+    21300006: Bullets_Effects_3
+    21300008: Bullets_Effects_4
+    21300010: Bullets_Effects_5
+    21300012: Bullets_Effects_6
+    21300014: Bullets_Effects_7
+    21300016: Bullets_Effects_8
+    21300018: Bullets_Effects_9
+    21300020: Bullets_Effects_10
+    21300022: Bullets_Effects_11
+    21300024: Bullets_Effects_12
+    21300026: Bullets_Effects_13
+    21300028: Bullets_Effects_14
+    21300030: Bullets_Effects_15
+    21300032: Bullets_Effects_16
+    21300034: Bullets_Effects_17
+    21300036: Bullets_Effects_18
+    21300038: Bullets_Effects_19
+    21300040: Bullets_Effects_20
+    21300042: Bullets_Effects_21
+    21300044: Bullets_Effects_22
+    21300046: Bullets_Effects_23
+    21300048: Bullets_Effects_24
+    21300050: Bullets_Effects_25
+    21300052: Bullets_Effects_26
+    21300054: Bullets_Effects_27
+    21300056: Bullets_Effects_28
+    21300058: Bullets_Effects_29
+    21300060: Bullets_Effects_30
+    21300062: Bullets_Effects_31
+    21300064: Bullets_Effects_32
+    21300066: Bullets_Effects_33
+    21300068: Bullets_Effects_34
+    21300070: Bullets_Effects_35
+    21300072: Bullets_Effects_36
+    21300074: Bullets_Effects_37
+    21300076: Bullets_Effects_38
+    21300078: Bullets_Effects_39
+    21300080: Bullets_Effects_40
+    21300082: Bullets_Effects_41
+    21300084: Bullets_Effects_42
+    21300086: Bullets_Effects_43
+    21300088: Bullets_Effects_44
+    21300090: Bullets_Effects_45
+    21300092: Bullets_Effects_46
+    21300094: Bullets_Effects_47
+    21300096: Bullets_Effects_48
+    21300098: Bullets_Effects_49
+    21300100: Bullets_Effects_50
+    21300102: Bullets_Effects_51
+    21300104: Bullets_Effects_52
+    21300106: Bullets_Effects_53
+    21300108: Bullets_Effects_54
+  serializedVersion: 2
+  mipmaps:
+    mipMapMode: 0
+    enableMipMap: 0
+    linearTexture: 0
+    correctGamma: 0
+    fadeOut: 0
+    borderMipMap: 0
+    mipMapFadeDistanceStart: 1
+    mipMapFadeDistanceEnd: 3
+  bumpmap:
+    convertToNormalMap: 0
+    externalNormalMap: 0
+    heightScale: 0.25
+    normalMapFilter: 0
+  isReadable: 0
+  grayScaleToAlpha: 0
+  generateCubemap: 0
+  cubemapConvolution: 0
+  cubemapConvolutionSteps: 7
+  cubemapConvolutionExponent: 1.5
+  seamlessCubemap: 0
+  textureFormat: -1
+  maxTextureSize: 2048
+  textureSettings:
+    filterMode: -1
+    aniso: 16
+    mipBias: -1
+    wrapMode: 1
+  nPOTScale: 0
+  lightmap: 0
+  rGBM: 0
+  compressionQuality: 50
+  allowsAlphaSplitting: 0
+  spriteMode: 2
+  spriteExtrude: 1
+  spriteMeshType: 1
+  alignment: 0
+  spritePivot: {x: 0.5, y: 0.5}
+  spriteBorder: {x: 0, y: 0, z: 0, w: 0}
+  spritePixelsToUnits: 100
+  alphaIsTransparency: 1
+  textureType: 8
+  buildTargetSettings: []
+  spriteSheet:
+    sprites:
+    - name: Bullets_Effects_0
+      rect:
+        serializedVersion: 2
+        x: 69
+        y: 2264
+        width: 317
+        height: 171
+      alignment: 0
+      pivot: {x: 0, y: 0}
+      border: {x: 0, y: 0, z: 0, w: 0}
+      outline:
+      - - {x: 14.675598, y: 26.493591}
+        - {x: -20.324402, y: 26.493591}
+        - {x: -41.3244, y: 19.493591}
+        - {x: -46.3244, y: 13.493591}
+        - {x: -46.3244, y: -12.506409}
+        - {x: -19.324402, y: -24.506409}
+        - {x: 37.6756, y: -24.506409}
+        - {x: 46.6756, y: -11.506409}
+        - {x: 46.6756, y: 11.493591}
+    - name: Bullets_Effects_1
+      rect:
+        serializedVersion: 2
+        x: 448
+        y: 2270
+        width: 314
+        height: 171
+      alignment: 0
+      pivot: {x: 0, y: 0}
+      border: {x: 0, y: 0, z: 0, w: 0}
+      outline:
+      - - {x: -23.504791, y: 26.247986}
+        - {x: -45.50479, y: 9.247986}
+        - {x: -45.50479, y: -5.752014}
+        - {x: -15.504791, y: -24.752014}
+        - {x: 40.49521, y: -24.752014}
+        - {x: 47.49521, y: -10.752014}
+        - {x: 47.49521, y: 12.247986}
+        - {x: 20.495209, y: 26.247986}
+    - name: Bullets_Effects_2
+      rect:
+        serializedVersion: 2
+        x: 1212
+        y: 2185
+        width: 99
+        height: 146
+      alignment: 0
+      pivot: {x: 0, y: 0}
+      border: {x: 0, y: 0, z: 0, w: 0}
+      outline:
+      - - {x: -49.5, y: 73}
+        - {x: -49.5, y: -46}
+        - {x: -45.5, y: -73}
+        - {x: 44.5, y: -73}
+        - {x: 49.5, y: -45}
+        - {x: 49.5, y: 73}
+    - name: Bullets_Effects_3
+      rect:
+        serializedVersion: 2
+        x: 1839
+        y: 2273
+        width: 87
+        height: 77
+      alignment: 0
+      pivot: {x: 0, y: 0}
+      border: {x: 0, y: 0, z: 0, w: 0}
+      outline:
+      - - {x: -31.5, y: 38.5}
+        - {x: -41.5, y: 24.5}
+        - {x: -43.5, y: 18.5}
+        - {x: -43.5, y: -23.5}
+        - {x: -36.5, y: -38.5}
+        - {x: 43.5, y: -38.5}
+        - {x: 43.5, y: 36.5}
+        - {x: 33.5, y: 38.5}
+    - name: Bullets_Effects_4
+      rect:
+        serializedVersion: 2
+        x: 2044
+        y: 2285
+        width: 90
+        height: 82
+      alignment: 0
+      pivot: {x: 0, y: 0}
+      border: {x: 0, y: 0, z: 0, w: 0}
+      outline:
+      - - {x: 35, y: 41}
+        - {x: -41, y: 41}
+        - {x: -45, y: 35}
+        - {x: -45, y: -37}
+        - {x: -35, y: -41}
+        - {x: 44, y: -41}
+        - {x: 45, y: -38}
+        - {x: 45, y: 38}
+    - name: Bullets_Effects_5
+      rect:
+        serializedVersion: 2
+        x: 2456
+        y: 2264
+        width: 87
+        height: 77
+      alignment: 0
+      pivot: {x: 0, y: 0}
+      border: {x: 0, y: 0, z: 0, w: 0}
+      outline:
+      - - {x: -43.5, y: 38.5}
+        - {x: -43.5, y: -25.5}
+        - {x: -29.5, y: -38.5}
+        - {x: 29.5, y: -38.5}
+        - {x: 43.5, y: -29.5}
+        - {x: 43.5, y: 26.5}
+        - {x: 36.5, y: 38.5}
+    - name: Bullets_Effects_6
+      rect:
+        serializedVersion: 2
+        x: 2929
+        y: 1945
+        width: 226
+        height: 358
+      alignment: 0
+      pivot: {x: 0, y: 0}
+      border: {x: 0, y: 0, z: 0, w: 0}
+      outline:
+      - - {x: -33.060364, y: 53.718018}
+        - {x: -33.060364, y: -43.281982}
+        - {x: -32.060364, y: -52.281982}
+        - {x: 14.939636, y: -52.281982}
+        - {x: 33.939636, y: -19.281982}
+        - {x: 33.939636, y: 39.718018}
+        - {x: 29.939636, y: 53.718018}
+    - name: Bullets_Effects_7
+      rect:
+        serializedVersion: 2
+        x: 3322
+        y: 2056
+        width: 86
+        height: 370
+      alignment: 0
+      pivot: {x: 0, y: 0}
+      border: {x: 0, y: 0, z: 0, w: 0}
+      outline:
+      - - {x: 9, y: 185}
+        - {x: -30, y: 185}
+        - {x: -43, y: 147}
+        - {x: -43, y: -27}
+        - {x: -4, y: -185}
+        - {x: 5, y: -185}
+        - {x: 10, y: -170}
+        - {x: 43, y: 20}
+        - {x: 43, y: 155}
+    - name: Bullets_Effects_8
+      rect:
+        serializedVersion: 2
+        x: 171
+        y: 2088
+        width: 109
+        height: 97
+      alignment: 0
+      pivot: {x: 0, y: 0}
+      border: {x: 0, y: 0, z: 0, w: 0}
+      outline:
+      - - {x: -31.5, y: 48.5}
+        - {x: -45.5, y: 46.5}
+        - {x: -54.5, y: 35.5}
+        - {x: -54.5, y: -29.5}
+        - {x: -52.5, y: -39.5}
+        - {x: -41.5, y: -48.5}
+        - {x: 32.5, y: -48.5}
+        - {x: 54.5, y: -39.5}
+        - {x: 54.5, y: 27.5}
+        - {x: 40.5, y: 48.5}
+    - name: Bullets_Effects_9
+      rect:
+        serializedVersion: 2
+        x: 561
+        y: 2080
+        width: 109
+        height: 97
+      alignment: 0
+      pivot: {x: 0, y: 0}
+      border: {x: 0, y: 0, z: 0, w: 0}
+      outline:
+      - - {x: 32.5, y: 48.5}
+        - {x: -49.5, y: 48.5}
+        - {x: -54.5, y: 38.5}
+        - {x: -54.5, y: -36.5}
+        - {x: -24.5, y: -48.5}
+        - {x: 22.5, y: -48.5}
+        - {x: 48.5, y: -41.5}
+        - {x: 54.5, y: -29.5}
+        - {x: 54.5, y: 28.5}
+    - name: Bullets_Effects_10
+      rect:
+        serializedVersion: 2
+        x: 1825
+        y: 1966
+        width: 63
+        height: 216
+      alignment: 0
+      pivot: {x: 0, y: 0}
+      border: {x: 0, y: 0, z: 0, w: 0}
+      outline:
+      - - {x: -23.5, y: 108}
+        - {x: -31.5, y: 97}
+        - {x: -31.5, y: -14}
+        - {x: -24.5, y: -88}
+        - {x: -11.5, y: -107}
+        - {x: -10.5, y: -108}
+        - {x: 13.5, y: -108}
+        - {x: 21.5, y: -105}
+        - {x: 31.5, y: -19}
+        - {x: 31.5, y: 106}
+        - {x: 23.5, y: 108}
+    - name: Bullets_Effects_11
+      rect:
+        serializedVersion: 2
+        x: 2065
+        y: 2012
+        width: 68
+        height: 223
+      alignment: 0
+      pivot: {x: 0, y: 0}
+      border: {x: 0, y: 0, z: 0, w: 0}
+      outline:
+      - - {x: -22, y: 111.5}
+        - {x: -34, y: 98.5}
+        - {x: -34, y: -66.5}
+        - {x: -18, y: -111.5}
+        - {x: 21, y: -111.5}
+        - {x: 25, y: -109.5}
+        - {x: 34, y: -8.5}
+        - {x: 34, y: 98.5}
+        - {x: 21, y: 111.5}
+    - name: Bullets_Effects_12
+      rect:
+        serializedVersion: 2
+        x: 2464
+        y: 1970
+        width: 65
+        height: 214
+      alignment: 0
+      pivot: {x: 0, y: 0}
+      border: {x: 0, y: 0, z: 0, w: 0}
+      outline:
+      - - {x: 20.5, y: 107}
+        - {x: -24.5, y: 107}
+        - {x: -32.5, y: 100}
+        - {x: -32.5, y: -28}
+        - {x: -19.5, y: -107}
+        - {x: 18.5, y: -107}
+        - {x: 23.5, y: -104}
+        - {x: 32.5, y: 6}
+        - {x: 32.5, y: 87}
+        - {x: 27.5, y: 97}
+    - name: Bullets_Effects_13
+      rect:
+        serializedVersion: 2
+        x: 166
+        y: 1835
+        width: 99
+        height: 144
+      alignment: 0
+      pivot: {x: 0, y: 0}
+      border: {x: 0, y: 0, z: 0, w: 0}
+      outline:
+      - - {x: -49.5, y: 72}
+        - {x: -49.5, y: -64}
+        - {x: -36.5, y: -72}
+        - {x: 33.5, y: -72}
+        - {x: 49.5, y: -50}
+        - {x: 49.5, y: 63}
+        - {x: 47.5, y: 72}
+    - name: Bullets_Effects_14
+      rect:
+        serializedVersion: 2
+        x: 880
+        y: 1868
+        width: 111
+        height: 153
+      alignment: 0
+      pivot: {x: 0, y: 0}
+      border: {x: 0, y: 0, z: 0, w: 0}
+      outline:
+      - - {x: -7.1879883, y: 22.703186}
+        - {x: -16.187988, y: 6.703186}
+        - {x: -16.187988, y: -22.296814}
+        - {x: 15.812012, y: -22.296814}
+        - {x: 16.812012, y: -21.296814}
+        - {x: 16.812012, y: 10.703186}
+        - {x: 4.8120117, y: 22.703186}
+    - name: Bullets_Effects_15
+      rect:
+        serializedVersion: 2
+        x: 3433
+        y: 1975
+        width: 6
+        height: 6
+      alignment: 0
+      pivot: {x: 0, y: 0}
+      border: {x: 0, y: 0, z: 0, w: 0}
+      outline: []
+    - name: Bullets_Effects_16
+      rect:
+        serializedVersion: 2
+        x: 1538
+        y: 1811
+        width: 113
+        height: 161
+      alignment: 0
+      pivot: {x: 0, y: 0}
+      border: {x: 0, y: 0, z: 0, w: 0}
+      outline:
+      - - {x: -4.288788, y: 24.536377}
+        - {x: -16.288788, y: 7.536377}
+        - {x: -16.288788, y: -21.463623}
+        - {x: -14.288788, y: -23.463623}
+        - {x: 13.711212, y: -23.463623}
+        - {x: 17.711212, y: -21.463623}
+        - {x: 17.711212, y: 6.536377}
+        - {x: 8.711212, y: 24.536377}
+    - name: Bullets_Effects_17
+      rect:
+        serializedVersion: 2
+        x: 2463
+        y: 1777
+        width: 109
+        height: 157
+      alignment: 0
+      pivot: {x: 0, y: 0}
+      border: {x: 0, y: 0, z: 0, w: 0}
+      outline:
+      - - {x: -13.5, y: 78.5}
+        - {x: -25.5, y: 71.5}
+        - {x: -54.5, y: 11.5}
+        - {x: -54.5, y: -57.5}
+        - {x: -28.5, y: -78.5}
+        - {x: 54.5, y: -78.5}
+        - {x: 54.5, y: 33.5}
+        - {x: 22.5, y: 78.5}
+    - name: Bullets_Effects_18
+      rect:
+        serializedVersion: 2
+        x: 3298
+        y: 1606
+        width: 171
+        height: 282
+      alignment: 0
+      pivot: {x: 0, y: 0}
+      border: {x: 0, y: 0, z: 0, w: 0}
+      outline:
+      - - {x: 10.835205, y: 42.59439}
+        - {x: -20.164795, y: 42.59439}
+        - {x: -25.164795, y: 40.59439}
+        - {x: -25.164795, y: -41.40561}
+        - {x: 21.835205, y: -41.40561}
+        - {x: 25.835205, y: -33.40561}
+        - {x: 25.835205, y: 21.59439}
+        - {x: 12.835205, y: 41.59439}
+    - name: Bullets_Effects_19
+      rect:
+        serializedVersion: 2
+        x: 86
+        y: 1507
+        width: 317
+        height: 170
+      alignment: 0
+      pivot: {x: 0, y: 0}
+      border: {x: 0, y: 0, z: 0, w: 0}
+      outline:
+      - - {x: -46.3536, y: -6.8532104}
+        - {x: -29.3536, y: -24.85321}
+        - {x: 37.6464, y: -24.85321}
+        - {x: 46.6464, y: -19.85321}
+        - {x: 46.6464, y: 5.1467896}
+        - {x: 21.6464, y: 26.14679}
+        - {x: -24.3536, y: 26.14679}
+        - {x: -46.3536, y: 10.14679}
+    - name: Bullets_Effects_20
+      rect:
+        serializedVersion: 2
+        x: 470
+        y: 1535
+        width: 111
+        height: 97
+      alignment: 0
+      pivot: {x: 0, y: 0}
+      border: {x: 0, y: 0, z: 0, w: 0}
+      outline:
+      - - {x: -48.5, y: 48.5}
+        - {x: -55.5, y: 30.5}
+        - {x: -55.5, y: -29.5}
+        - {x: -30.5, y: -48.5}
+        - {x: 41.5, y: -48.5}
+        - {x: 55.5, y: -25.5}
+        - {x: 55.5, y: 29.5}
+        - {x: 28.5, y: 48.5}
+    - name: Bullets_Effects_21
+      rect:
+        serializedVersion: 2
+        x: 723
+        y: 1529
+        width: 101
+        height: 147
+      alignment: 0
+      pivot: {x: 0, y: 0}
+      border: {x: 0, y: 0, z: 0, w: 0}
+      outline:
+      - - {x: -48.5, y: 73.5}
+        - {x: -50.5, y: 63.5}
+        - {x: -50.5, y: -52.5}
+        - {x: -39.5, y: -73.5}
+        - {x: 35.5, y: -73.5}
+        - {x: 50.5, y: -52.5}
+        - {x: 50.5, y: 73.5}
+    - name: Bullets_Effects_22
+      rect:
+        serializedVersion: 2
+        x: 1328
+        y: 1271
+        width: 258
+        height: 328
+      alignment: 0
+      pivot: {x: 0, y: 0}
+      border: {x: 0, y: 0, z: 0, w: 0}
+      outline:
+      - - {x: -13.69281, y: 49.14041}
+        - {x: -37.69281, y: 38.14041}
+        - {x: -37.69281, y: 9.140411}
+        - {x: -3.69281, y: -47.85959}
+        - {x: 6.30719, y: -47.85959}
+        - {x: 38.30719, y: 12.140411}
+        - {x: 38.30719, y: 31.140411}
+        - {x: 25.30719, y: 49.14041}
+    - name: Bullets_Effects_23
+      rect:
+        serializedVersion: 2
+        x: 1728
+        y: 1271
+        width: 258
+        height: 328
+      alignment: 0
+      pivot: {x: 0, y: 0}
+      border: {x: 0, y: 0, z: 0, w: 0}
+      outline:
+      - - {x: 14.267212, y: 49.14041}
+        - {x: -16.732788, y: 49.14041}
+        - {x: -37.732788, y: 32.14041}
+        - {x: -37.732788, y: 5.1404114}
+        - {x: -10.732788, y: -47.85959}
+        - {x: 5.267212, y: -47.85959}
+        - {x: 6.267212, y: -44.85959}
+        - {x: 38.267212, y: 12.140411}
+        - {x: 38.267212, y: 26.140411}
+    - name: Bullets_Effects_24
+      rect:
+        serializedVersion: 2
+        x: 2140
+        y: 1289
+        width: 258
+        height: 329
+      alignment: 0
+      pivot: {x: 0, y: 0}
+      border: {x: 0, y: 0, z: 0, w: 0}
+      outline:
+      - - {x: 15.236023, y: 49.903595}
+        - {x: -20.763977, y: 49.903595}
+        - {x: -37.763977, y: 37.903595}
+        - {x: -37.763977, y: 2.903595}
+        - {x: -15.763977, y: -48.096405}
+        - {x: 7.236023, y: -48.096405}
+        - {x: 39.236023, y: 6.903595}
+        - {x: 39.236023, y: 30.903595}
+        - {x: 17.236023, y: 48.903595}
+    - name: Bullets_Effects_25
+      rect:
+        serializedVersion: 2
+        x: 2871
+        y: 1536
+        width: 292
+        height: 268
+      alignment: 0
+      pivot: {x: 0, y: 0}
+      border: {x: 0, y: 0, z: 0, w: 0}
+      outline:
+      - - {x: -34.519592, y: 39.626404}
+        - {x: -41.519592, y: 33.626404}
+        - {x: -42.519592, y: 27.626404}
+        - {x: -42.519592, y: -35.373596}
+        - {x: -37.519592, y: -39.373596}
+        - {x: 29.480408, y: -39.373596}
+        - {x: 43.480408, y: -35.373596}
+        - {x: 43.480408, y: 39.626404}
+    - name: Bullets_Effects_26
+      rect:
+        serializedVersion: 2
+        x: 91
+        y: 827
+        width: 104
+        height: 569
+      alignment: 0
+      pivot: {x: 0, y: 0}
+      border: {x: 0, y: 0, z: 0, w: 0}
+      outline:
+      - - {x: 52, y: 23.5}
+        - {x: 52, y: 222.5}
+        - {x: 50, y: 232.5}
+        - {x: 42, y: 256.5}
+        - {x: 18, y: 284.5}
+        - {x: -19, y: 284.5}
+        - {x: -23, y: 283.5}
+        - {x: -31, y: 274.5}
+        - {x: -52, y: 206.5}
+        - {x: -52, y: 135.5}
+        - {x: -39, y: 91.5}
+        - {x: -45, y: 21.5}
+        - {x: -40, y: -25.5}
+        - {x: -31, y: -259.5}
+        - {x: -21, y: -284.5}
+        - {x: 26, y: -284.5}
+        - {x: 33, y: -279.5}
+        - {x: 42, y: -256.5}
+        - {x: 50, y: -104.5}
+    - name: Bullets_Effects_27
+      rect:
+        serializedVersion: 2
+        x: 369
+        y: 836
+        width: 106
+        height: 570
+      alignment: 0
+      pivot: {x: 0, y: 0}
+      border: {x: 0, y: 0, z: 0, w: 0}
+      outline:
+      - - {x: 53, y: 28}
+        - {x: 53, y: 222}
+        - {x: 41, y: 256}
+        - {x: 24, y: 282}
+        - {x: 13, y: 285}
+        - {x: -17, y: 285}
+        - {x: -30, y: 274}
+        - {x: -38, y: 243}
+        - {x: -53, y: 200}
+        - {x: -53, y: 131}
+        - {x: -45, y: 21}
+        - {x: -40, y: -26}
+        - {x: -31, y: -260}
+        - {x: -21, y: -285}
+        - {x: 26, y: -285}
+        - {x: 33, y: -280}
+        - {x: 42, y: -257}
+        - {x: 50, y: -105}
+    - name: Bullets_Effects_28
+      rect:
+        serializedVersion: 2
+        x: 673
+        y: 805
+        width: 104
+        height: 571
+      alignment: 0
+      pivot: {x: 0, y: 0}
+      border: {x: 0, y: 0, z: 0, w: 0}
+      outline:
+      - - {x: 52, y: 234.5}
+        - {x: 24, y: 282.5}
+        - {x: 18, y: 285.5}
+        - {x: -13, y: 285.5}
+        - {x: -23, y: 283.5}
+        - {x: -31, y: 274.5}
+        - {x: -52, y: 206.5}
+        - {x: -52, y: 135.5}
+        - {x: -39, y: 91.5}
+        - {x: -42, y: 21.5}
+        - {x: -43, y: -0.5}
+        - {x: -38, y: -25.5}
+        - {x: -31, y: -259.5}
+        - {x: -25, y: -285.5}
+        - {x: 33, y: -285.5}
+        - {x: 36, y: -281.5}
+        - {x: 48, y: -226.5}
+        - {x: 52, y: 33.5}
+    - name: Bullets_Effects_29
+      rect:
+        serializedVersion: 2
+        x: 899
+        y: 996
+        width: 285
+        height: 277
+      alignment: 0
+      pivot: {x: 0, y: 0}
+      border: {x: 0, y: 0, z: 0, w: 0}
+      outline:
+      - - {x: -22.632385, y: 41.230408}
+        - {x: -41.632385, y: 26.230408}
+        - {x: -41.632385, y: -21.769592}
+        - {x: -36.632385, y: -34.769592}
+        - {x: -31.632385, y: -40.769592}
+        - {x: 37.367615, y: -40.769592}
+        - {x: 43.367615, y: -24.769592}
+        - {x: 43.367615, y: 26.230408}
+        - {x: 30.367615, y: 41.230408}
+    - name: Bullets_Effects_30
+      rect:
+        serializedVersion: 2
+        x: 1314
+        y: 903
+        width: 250
+        height: 351
+      alignment: 0
+      pivot: {x: 0, y: 0}
+      border: {x: 0, y: 0, z: 0, w: 0}
+      outline:
+      - - {x: 33.213593, y: -51.4628}
+        - {x: 33.213593, y: -49.4628}
+        - {x: 30.213593, y: -48.4628}
+        - {x: 28.213593, y: -51.4628}
+      - - {x: 7.2135925, y: 51.5372}
+        - {x: -1.7864075, y: 51.5372}
+        - {x: -12.786407, y: 33.5372}
+        - {x: -36.786407, y: 18.5372}
+        - {x: -36.786407, y: -35.4628}
+        - {x: -17.786407, y: -48.4628}
+        - {x: 16.213593, y: -48.4628}
+        - {x: 37.213593, y: -38.4628}
+        - {x: 37.213593, y: 17.5372}
+        - {x: 10.213593, y: 49.5372}
+    - name: Bullets_Effects_31
+      rect:
+        serializedVersion: 2
+        x: 1693
+        y: 903
+        width: 248
+        height: 351
+      alignment: 0
+      pivot: {x: 0, y: 0}
+      border: {x: 0, y: 0, z: 0, w: 0}
+      outline:
+      - - {x: -7.466797, y: 51.5372}
+        - {x: -36.466797, y: 16.5372}
+        - {x: -36.466797, y: -37.4628}
+        - {x: -23.466797, y: -48.4628}
+        - {x: 20.533203, y: -48.4628}
+        - {x: 36.533203, y: -42.4628}
+        - {x: 36.533203, y: 24.5372}
+        - {x: 7.533203, y: 51.5372}
+    - name: Bullets_Effects_32
+      rect:
+        serializedVersion: 2
+        x: 2118
+        y: 914
+        width: 248
+        height: 352
+      alignment: 0
+      pivot: {x: 0, y: 0}
+      border: {x: 0, y: 0, z: 0, w: 0}
+      outline:
+      - - {x: 10.803223, y: 52.2536}
+        - {x: -0.19677734, y: 52.2536}
+        - {x: -17.196777, y: 33.2536}
+        - {x: -36.196777, y: -22.746399}
+        - {x: -36.196777, y: -35.7464}
+        - {x: -14.196777, y: -47.7464}
+        - {x: 21.803223, y: -47.7464}
+        - {x: 36.803223, y: -40.7464}
+        - {x: 36.803223, y: -0.7463989}
+        - {x: 29.803223, y: 35.2536}
+    - name: Bullets_Effects_33
+      rect:
+        serializedVersion: 2
+        x: 2623
+        y: 1224
+        width: 84
+        height: 221
+      alignment: 0
+      pivot: {x: 0, y: 0}
+      border: {x: 0, y: 0, z: 0, w: 0}
+      outline:
+      - - {x: -42, y: 110.5}
+        - {x: -42, y: -60.5}
+        - {x: -4, y: -110.5}
+        - {x: 3, y: -110.5}
+        - {x: 42, y: -32.5}
+        - {x: 42, y: 86.5}
+        - {x: 34, y: 110.5}
+    - name: Bullets_Effects_34
+      rect:
+        serializedVersion: 2
+        x: 3136
+        y: 1132
+        width: 16
+        height: 67
+      alignment: 0
+      pivot: {x: 0, y: 0}
+      border: {x: 0, y: 0, z: 0, w: 0}
+      outline: []
+    - name: Bullets_Effects_35
+      rect:
+        serializedVersion: 2
+        x: 3271
+        y: 1117
+        width: 16
+        height: 66
+      alignment: 0
+      pivot: {x: 0, y: 0}
+      border: {x: 0, y: 0, z: 0, w: 0}
+      outline: []
+    - name: Bullets_Effects_36
+      rect:
+        serializedVersion: 2
+        x: 3409
+        y: 1078
+        width: 16
+        height: 66
+      alignment: 0
+      pivot: {x: 0, y: 0}
+      border: {x: 0, y: 0, z: 0, w: 0}
+      outline: []
+    - name: Bullets_Effects_37
+      rect:
+        serializedVersion: 2
+        x: 2647
+        y: 807
+        width: 178
+        height: 321
+      alignment: 0
+      pivot: {x: 0, y: 0}
+      border: {x: 0, y: 0, z: 0, w: 0}
+      outline:
+      - - {x: -2.017212, y: 48.466797}
+        - {x: -26.017212, y: 32.466797}
+        - {x: -26.017212, y: -46.533203}
+        - {x: 27.982788, y: -46.533203}
+        - {x: 27.982788, y: 37.466797}
+        - {x: 11.982788, y: 48.466797}
+    - name: Bullets_Effects_38
+      rect:
+        serializedVersion: 2
+        x: 3219
+        y: 824
+        width: 107
+        height: 247
+      alignment: 0
+      pivot: {x: 0, y: 0}
+      border: {x: 0, y: 0, z: 0, w: 0}
+      outline:
+      - - {x: -9.5, y: 64.5}
+        - {x: -53.5, y: 9.5}
+        - {x: -53.5, y: -119.5}
+        - {x: -44.5, y: -123.5}
+        - {x: 44.5, y: -123.5}
+        - {x: 53.5, y: -121.5}
+        - {x: 53.5, y: -0.5}
+        - {x: 13.5, y: 64.5}
+      - - {x: 25.5, y: 123.5}
+        - {x: 25.5, y: 78.5}
+        - {x: 27.5, y: 76.5}
+        - {x: 29.5, y: 76.5}
+        - {x: 31.5, y: 78.5}
+        - {x: 31.5, y: 123.5}
+    - name: Bullets_Effects_39
+      rect:
+        serializedVersion: 2
+        x: 140
+        y: 579
+        width: 162
+        height: 119
+      alignment: 0
+      pivot: {x: 0, y: 0}
+      border: {x: 0, y: 0, z: 0, w: 0}
+      outline:
+      - - {x: -13.563999, y: 18.299606}
+        - {x: -18.564, y: 14.299606}
+        - {x: -23.564, y: 6.2996063}
+        - {x: -23.564, y: 0.29960632}
+        - {x: -21.564, y: -0.7003937}
+        - {x: -19.564, y: -0.7003937}
+        - {x: -22.564, y: -2.7003937}
+        - {x: -23.564, y: -3.7003937}
+        - {x: -23.564, y: -5.7003937}
+        - {x: -13.563999, y: -17.700394}
+        - {x: 14.436001, y: -17.700394}
+        - {x: 25.436, y: -4.7003937}
+        - {x: 25.436, y: 9.299606}
+        - {x: 8.436001, y: 18.299606}
+    - name: Bullets_Effects_40
+      rect:
+        serializedVersion: 2
+        x: 438
+        y: 571
+        width: 162
+        height: 118
+      alignment: 0
+      pivot: {x: 0, y: 0}
+      border: {x: 0, y: 0, z: 0, w: 0}
+      outline:
+      - - {x: -23.928802, y: 18.960403}
+        - {x: -23.928802, y: -6.0395966}
+        - {x: -15.9288025, y: -17.039597}
+        - {x: 17.071198, y: -17.039597}
+        - {x: 24.071198, y: -9.039597}
+        - {x: 24.071198, y: 18.960403}
+    - name: Bullets_Effects_41
+      rect:
+        serializedVersion: 2
+        x: 716
+        y: 598
+        width: 163
+        height: 119
+      alignment: 0
+      pivot: {x: 0, y: 0}
+      border: {x: 0, y: 0, z: 0, w: 0}
+      outline:
+      - - {x: 6.8583984, y: 18.855194}
+        - {x: -9.141602, y: 18.855194}
+        - {x: -24.141602, y: 11.855194}
+        - {x: -24.141602, y: -7.144806}
+        - {x: -17.141602, y: -17.144806}
+        - {x: 19.858398, y: -17.144806}
+        - {x: 24.858398, y: -14.144806}
+        - {x: 24.858398, y: 6.855194}
+        - {x: 15.858398, y: 15.855194}
+    - name: Bullets_Effects_42
+      rect:
+        serializedVersion: 2
+        x: 1102
+        y: 473
+        width: 171
+        height: 183
+      alignment: 0
+      pivot: {x: 0, y: 0}
+      border: {x: 0, y: 0, z: 0, w: 0}
+      outline:
+      - - {x: -17.275208, y: 27.305206}
+        - {x: -25.275208, y: 23.305206}
+        - {x: -25.275208, y: -25.694794}
+        - {x: -23.275208, y: -26.694794}
+        - {x: 23.724792, y: -26.694794}
+        - {x: 25.724792, y: -22.694794}
+        - {x: 25.724792, y: 18.305206}
+        - {x: 18.724792, y: 27.305206}
+    - name: Bullets_Effects_43
+      rect:
+        serializedVersion: 2
+        x: 1453
+        y: 501
+        width: 170
+        height: 181
+      alignment: 0
+      pivot: {x: 0, y: 0}
+      border: {x: 0, y: 0, z: 0, w: 0}
+      outline:
+      - - {x: -24.642792, y: 27.492401}
+        - {x: -24.642792, y: -20.507599}
+        - {x: -15.642792, y: -26.507599}
+        - {x: 19.357208, y: -26.507599}
+        - {x: 26.357208, y: -22.507599}
+        - {x: 26.357208, y: 22.492401}
+        - {x: 25.357208, y: 27.492401}
+    - name: Bullets_Effects_44
+      rect:
+        serializedVersion: 2
+        x: 1807
+        y: 518
+        width: 500
+        height: 177
+      alignment: 0
+      pivot: {x: 0, y: 0}
+      border: {x: 0, y: 0, z: 0, w: 0}
+      outline:
+      - - {x: 41.86682, y: 26.963196}
+        - {x: -41.13318, y: 26.963196}
+        - {x: -73.13318, y: 20.963196}
+        - {x: -73.13318, y: 8.963196}
+        - {x: -54.13318, y: -7.036804}
+        - {x: -11.133179, y: -26.036804}
+        - {x: 23.866821, y: -26.036804}
+        - {x: 73.86682, y: 6.963196}
+        - {x: 73.86682, y: 15.963196}
+        - {x: 63.86682, y: 20.963196}
+    - name: Bullets_Effects_45
+      rect:
+        serializedVersion: 2
+        x: 2345
+        y: 502
+        width: 502
+        height: 178
+      alignment: 0
+      pivot: {x: 0, y: 0}
+      border: {x: 0, y: 0, z: 0, w: 0}
+      outline:
+      - - {x: -73.32202, y: 27.284805}
+        - {x: -73.32202, y: 5.2848053}
+        - {x: -21.322021, y: -25.715195}
+        - {x: 14.6779785, y: -25.715195}
+        - {x: 74.67798, y: 5.2848053}
+        - {x: 74.67798, y: 27.284805}
+    - name: Bullets_Effects_46
+      rect:
+        serializedVersion: 2
+        x: 2958
+        y: 467
+        width: 501
+        height: 178
+      alignment: 0
+      pivot: {x: 0, y: 0}
+      border: {x: 0, y: 0, z: 0, w: 0}
+      outline:
+      - - {x: -55.08081, y: 27.050797}
+        - {x: -73.08081, y: 20.050797}
+        - {x: -73.08081, y: 0.05079651}
+        - {x: -11.080811, y: -25.949203}
+        - {x: 23.91919, y: -25.949203}
+        - {x: 74.91919, y: 8.0507965}
+        - {x: 74.91919, y: 23.050797}
+        - {x: 51.91919, y: 27.050797}
+    - name: Bullets_Effects_47
+      rect:
+        serializedVersion: 2
+        x: 147
+        y: 54
+        width: 112
+        height: 408
+      alignment: 0
+      pivot: {x: 0, y: 0}
+      border: {x: 0, y: 0, z: 0, w: 0}
+      outline:
+      - - {x: -13.0172, y: 61.2896}
+        - {x: -16.0172, y: 53.2896}
+        - {x: -16.0172, y: 9.2896}
+        - {x: -4.0172005, y: -57.7104}
+        - {x: -2.0172005, y: -59.7104}
+        - {x: 8.9828, y: -59.7104}
+        - {x: 17.9828, y: -20.7104}
+        - {x: 17.9828, y: 58.2896}
+        - {x: 9.9828, y: 61.2896}
+    - name: Bullets_Effects_48
+      rect:
+        serializedVersion: 2
+        x: 439
+        y: 48
+        width: 112
+        height: 407
+      alignment: 0
+      pivot: {x: 0, y: 0}
+      border: {x: 0, y: 0, z: 0, w: 0}
+      outline:
+      - - {x: -8.636398, y: 60.035202}
+        - {x: -16.636398, y: 48.035202}
+        - {x: -16.636398, y: 11.035202}
+        - {x: -4.6363983, y: -59.964798}
+        - {x: 9.363602, y: -59.964798}
+        - {x: 17.363602, y: -26.964798}
+        - {x: 17.363602, y: 55.035202}
+        - {x: 9.363602, y: 60.035202}
+    - name: Bullets_Effects_49
+      rect:
+        serializedVersion: 2
+        x: 739
+        y: 79
+        width: 112
+        height: 407
+      alignment: 0
+      pivot: {x: 0, y: 0}
+      border: {x: 0, y: 0, z: 0, w: 0}
+      outline:
+      - - {x: -9.416397, y: 60.0996}
+        - {x: -16.416397, y: 47.0996}
+        - {x: -16.416397, y: 18.099602}
+        - {x: -3.416397, y: -58.9004}
+        - {x: -2.416397, y: -59.9004}
+        - {x: 8.583603, y: -59.9004}
+        - {x: 16.583603, y: -33.9004}
+        - {x: 16.583603, y: 54.0996}
+        - {x: 13.583603, y: 60.0996}
+    - name: Bullets_Effects_50
+      rect:
+        serializedVersion: 2
+        x: 1089
+        y: 79
+        width: 220
+        height: 382
+      alignment: 0
+      pivot: {x: 0, y: 0}
+      border: {x: 0, y: 0, z: 0, w: 0}
+      outline:
+      - - {x: -23.076385, y: 56.0996}
+        - {x: -26.076385, y: 54.0996}
+        - {x: -32.076385, y: 9.099602}
+        - {x: -32.076385, y: -40.9004}
+        - {x: -22.076385, y: -55.9004}
+        - {x: 20.923615, y: -55.9004}
+        - {x: 32.923615, y: -42.9004}
+        - {x: 32.923615, y: 31.099602}
+        - {x: 20.923615, y: 56.0996}
+    - name: Bullets_Effects_51
+      rect:
+        serializedVersion: 2
+        x: 1436
+        y: 70
+        width: 220
+        height: 383
+      alignment: 0
+      pivot: {x: 0, y: 0}
+      border: {x: 0, y: 0, z: 0, w: 0}
+      outline:
+      - - {x: -24.113586, y: 56.968002}
+        - {x: -32.113586, y: 38.968002}
+        - {x: -32.113586, y: -48.031998}
+        - {x: -28.113586, y: -56.031998}
+        - {x: 33.886414, y: -56.031998}
+        - {x: 33.886414, y: 38.968002}
+        - {x: 18.886414, y: 56.968002}
+    - name: Bullets_Effects_52
+      rect:
+        serializedVersion: 2
+        x: 1926
+        y: 117
+        width: 244
+        height: 358
+      alignment: 0
+      pivot: {x: 0, y: 0}
+      border: {x: 0, y: 0, z: 0, w: 0}
+      outline:
+      - - {x: -25.837585, y: 52.7108}
+        - {x: -35.837585, y: 47.7108}
+        - {x: -35.837585, y: -14.2892}
+        - {x: -24.837585, y: -52.2892}
+        - {x: 14.162415, y: -52.2892}
+        - {x: 36.162415, y: -26.2892}
+        - {x: 36.162415, y: 40.7108}
+        - {x: 29.162415, y: 52.7108}
+    - name: Bullets_Effects_53
+      rect:
+        serializedVersion: 2
+        x: 2429
+        y: 75
+        width: 244
+        height: 359
+      alignment: 0
+      pivot: {x: 0, y: 0}
+      border: {x: 0, y: 0, z: 0, w: 0}
+      outline:
+      - - {x: -35.760376, y: 53.93}
+        - {x: -35.760376, y: -23.07}
+        - {x: -7.760376, y: -52.07}
+        - {x: 6.239624, y: -52.07}
+        - {x: 14.239624, y: -48.07}
+        - {x: 36.239624, y: -18.07}
+        - {x: 36.239624, y: 53.93}
+    - name: Bullets_Effects_54
+      rect:
+        serializedVersion: 2
+        x: 2818
+        y: 83
+        width: 245
+        height: 359
+      alignment: 0
+      pivot: {x: 0, y: 0}
+      border: {x: 0, y: 0, z: 0, w: 0}
+      outline:
+      - - {x: -10.516785, y: 53.2692}
+        - {x: -35.516785, y: 43.2692}
+        - {x: -35.516785, y: -4.7308006}
+        - {x: -7.5167847, y: -52.7308}
+        - {x: 11.483215, y: -52.7308}
+        - {x: 37.483215, y: -22.7308}
+        - {x: 37.483215, y: 42.2692}
+        - {x: 32.483215, y: 53.2692}
+    outline: []
+  spritePackingTag: 
+  userData: 
+  assetBundleName: 
+  assetBundleVariant: 

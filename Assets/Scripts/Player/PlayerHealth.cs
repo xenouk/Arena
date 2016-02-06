@@ -11,14 +11,19 @@ public class PlayerHealth : NetworkBehaviour {
 	public Image m_FillImage;                         // The image component of the slider.
 	public Color m_FullHealthColor = Color.green;     // The color the health bar will be when on full health.
 	public Color m_ZeroHealthColor = Color.red;
+	[Header("Parts")]
 	public GameObject m_HealthCanvas;
 	public GameObject m_ShileCanvas;
 	public GameObject m_NameCanvas;
 	public GameObject m_Model;
 	public GameObject m_Shield;
-	public BoxCollider m_Collider; 
+	public CircleCollider2D m_Collider; 
 	public PlayerManager m_Manager; 
 	public PlayerWeapons m_Weapons;
+	[Header("Audios")]
+	public GameObject m_Explosion;
+	public AudioSource a_Audio;
+	public AudioClip a_Explosion;
 
 	[SyncVar(hook = "OnCurrentHealthChanged")]
 	private int m_CurrentHealth;
@@ -31,7 +36,7 @@ public class PlayerHealth : NetworkBehaviour {
 		m_IsAlive = true;
 		m_HealthSlider.value = m_CurrentHealth = m_BaseHealth;
 		m_HealthSlider.maxValue = m_BaseHealth;
-		m_Collider = GetComponent<BoxCollider> ();
+		m_Collider = GetComponent<CircleCollider2D> ();
 		m_Weapons = GetComponent<PlayerWeapons> ();
 	}
 
@@ -58,6 +63,7 @@ public class PlayerHealth : NetworkBehaviour {
 			case 1: 
 				break;
 			}
+			RpcExplode ();
 		}
 	}
 
@@ -116,6 +122,10 @@ public class PlayerHealth : NetworkBehaviour {
 		m_Shield.SetActive (false);
 		m_CurrentShield = 0;
 		SetPlayerctive (true);
+	}
+	[ClientRpc]
+	void RpcExplode(){
+		Destroy(Instantiate (m_Explosion, transform.position, Quaternion.identity), 2f);
 	}
 
 	IEnumerator SetRespawn(){

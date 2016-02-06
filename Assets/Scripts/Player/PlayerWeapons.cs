@@ -3,11 +3,11 @@ using System.Collections;
 using UnityEngine.Networking;
 using UnityEngine.UI;
 
-[RequireComponent(typeof(Rigidbody))]
+[RequireComponent(typeof(Rigidbody2D))]
 [RequireComponent(typeof(PlayerHealth))]
 public class PlayerWeapons : NetworkBehaviour {
 	public PlayerManager m_Manager;
-	public Rigidbody _playerRigidbody;
+	public Rigidbody2D _playerRigidbody;
 	private PlayerHealth _playerHealth;
 	public PlayerController _playerController;
 	bool _left;
@@ -15,6 +15,10 @@ public class PlayerWeapons : NetworkBehaviour {
 	bool _subWeapon = false;
 	delegate IEnumerator SlotDelegate();
 	SlotDelegate slotDelegate;
+
+	[Header("Bullet")]
+	public GameObject m_bulletPrefab;
+	public float m_BulletFireRate = 0.2f;
 
 	[Header("Laser")]
 	public Sprite m_LaserIcon;
@@ -36,8 +40,8 @@ public class PlayerWeapons : NetworkBehaviour {
 
 	[Header("Splash Bullet")]
 	public Sprite m_BulletIcon;
-	public GameObject m_bulletPrefab;
-	public float m_BulletFireRate = 0.2f;
+	public GameObject m_SplashBulletPrefab;
+	public float m_SplashBulletFireRate = 0.2f;
 	public int m_BulletBaseAmount = 15;
 	[SyncVar(hook = "OnBulletAmountChange")] 
 	public int m_BulletAmount;
@@ -59,9 +63,14 @@ public class PlayerWeapons : NetworkBehaviour {
 	private Text _WeaponAmounts;
 	private Image _WeaponIcons;
 
+	[Header("Audio")]
+	public AudioSource a_Audio;
+	public AudioClip a_Shooting;
+	public AudioClip a_Laser;
+
 	// Use this for initialization
 	private void Awake() {
-		_playerRigidbody = GetComponent<Rigidbody>();
+		_playerRigidbody = GetComponent<Rigidbody2D>();
 		_WeaponAmounts = GameObject.FindGameObjectWithTag ("WeaponAmount").GetComponent<Text> ();
 		_WeaponIcons = GameObject.FindGameObjectWithTag ("WeaponIcon").GetComponent<Image> ();
 	}
@@ -89,6 +98,7 @@ public class PlayerWeapons : NetworkBehaviour {
 
 	private void OnDisable(){
 		m_LaserLine.enabled = false;
+		a_Audio.Stop ();
 	}
 
 	[ClientCallback]
@@ -150,7 +160,7 @@ public class PlayerWeapons : NetworkBehaviour {
 			if (m_BulletAmount > 0) {
 				CmdFireSplashBullet ();
 			}
-			yield return new WaitForSeconds(m_BulletFireRate);
+			yield return new WaitForSeconds(m_SplashBulletFireRate);
 			_subWeapon = false;
 		}
 	}
@@ -192,24 +202,19 @@ public class PlayerWeapons : NetworkBehaviour {
 	}
 
 	public void CreateBullets() {
-		Vector3[] vectorBase = {
-			_playerRigidbody.rotation * Vector3.right,
-			_playerRigidbody.rotation * Vector3.up,
-			_playerRigidbody.rotation * Vector3.forward
-		};
+		a_Audio.clip = a_Shooting;
+		a_Audio.Play ();
 
 		Vector3[] offsets = {
-			-.5f * vectorBase [0] + -0.4f * vectorBase [2],
-			.5f * vectorBase [0] + -0.4f * vectorBase [2]
+			transform.position + transform.right * .5f,
+			transform.position + transform.right * -.5f
 		};
-
-		Vector3 newOffset = (_left) ? offsets [0] : offsets [1];
+		
 		_left = !_left;
+		Vector3 newOffset = (_left) ? offsets [0] : offsets [1];
 
-		GameObject bullet = Instantiate (m_bulletPrefab, _playerRigidbody.position + newOffset, Quaternion.identity) as GameObject;
+		GameObject bullet = Instantiate (m_bulletPrefab, newOffset, transform.rotation) as GameObject;
 		Bullet bulletScript = bullet.GetComponent<Bullet> ();
-
-		bulletScript.originalDirection = vectorBase [2];
 
 		bulletScript.owner = this;
 		bulletScript.manager = m_Manager;
@@ -264,12 +269,10 @@ public class PlayerWeapons : NetworkBehaviour {
 
 		m_FireBallAmount--;
 
-		Vector3 offsets = _playerRigidbody.rotation * Vector3.forward;
+		Vector2 offsets = transform.position + transform.up * 0.2f;
 
-		GameObject bullet = Instantiate (m_FireBallPrefab, _playerRigidbody.position + offsets, Quaternion.identity) as GameObject;
+		GameObject bullet = Instantiate (m_FireBallPrefab, offsets, transform.rotation) as GameObject;
 		FireBall fireballScript = bullet.GetComponent<FireBall> ();
-
-		fireballScript.originalDirection = offsets;
 
 		fireballScript.owner = this;
 		fireballScript.manager = m_Manager;
@@ -333,22 +336,28 @@ public class PlayerWeapons : NetworkBehaviour {
 	[ClientRpc]
 	public void RpcStopLaser() {
 		StopLaser ();
+		if (a_Audio.clip == a_Laser)
+			a_Audio.Stop ();
 	}
 
 	void FireLaser(){
 		if (m_LaserAmount < 0)
 			return;
 
+		a_Audio.clip = a_Laser;
+		if(!a_Audio.isPlaying)
+			a_Audio.Play ();
+
 		m_LaserLine.enabled = true;
 		m_LaserAmount -= Time.deltaTime * m_LaserDamageRate;
-
-		Ray ray = new Ray (_playerRigidbody.position + _playerRigidbody.rotation * Vector3.forward, _playerRigidbody.rotation * Vector3.forward);
-		RaycastHit hit;
-		m_LaserLine.SetPosition(0, ray.origin);
-		if(Physics.Raycast(ray, out hit, Mathf.Infinity, LayerMask.GetMask("Player", "Wall"))){
+		Vector3 origin = transform.position + transform.rotation * Vector3.up * 1.2f;
+		Vector3 dir = transform.rotation * Vector3.up;
+		RaycastHit2D hit = Physics2D.Raycast (origin, dir, Mathf.Infinity, LayerMask.GetMask ("Player", "Wall"));
+		m_LaserLine.SetPosition (0, origin);
+		if (hit.collider != null) {
 			m_LaserLine.SetPosition (1, hit.point);
-			RaycastHit[] hits = Physics.SphereCastAll (ray, m_LaserDamageRadius, Vector3.Distance (_playerRigidbody.position, hit.point), LayerMask.GetMask ("Player"));
-			foreach (RaycastHit h in hits) {
+			RaycastHit2D[] hits = Physics2D.CircleCastAll (origin, m_LaserDamageRadius, dir, Vector3.Distance (_playerRigidbody.position, hit.point), LayerMask.GetMask ("Player"));
+			foreach (RaycastHit2D h in hits) {
 				if (h.collider.transform != this.transform)
 					h.collider.GetComponent<PlayerHealth> ().TakeDamage (m_LaserDamage, m_Manager);
 			}
@@ -405,35 +414,29 @@ public class PlayerWeapons : NetworkBehaviour {
 	public void CreateSplashBullet() {
 		if (m_BulletAmount < 0)
 			return;
-		
+		a_Audio.clip = a_Shooting;
 		m_BulletAmount--;
 
-		Vector3[] vectorBase = {
-			_playerRigidbody.rotation * Vector3.right,
-			_playerRigidbody.rotation * Vector3.forward
-		};
-
 		Vector3[] offsets = {
-			-.6f * vectorBase [0] + -0.4f * vectorBase [1],
-			-.3f * vectorBase [0] + -0.4f * vectorBase [1],
-			-0.4f * vectorBase [1],
-			.3f * vectorBase [0] + -0.4f * vectorBase [1],
-			.6f * vectorBase [0] + -0.4f * vectorBase [1]
+			transform.position + transform.right,
+			transform.position + transform.right * .5f,
+			transform.position,
+			transform.position + transform.right * -.5f,
+			transform.position + transform.right * -1,
 		};
 
-		Vector3[] originalDirections = {
-			Quaternion.Euler(1, -6f, 1) * _playerRigidbody.rotation * Vector3.forward,
-			Quaternion.Euler(1, -3f, 1) * _playerRigidbody.rotation * Vector3.forward,
-			_playerRigidbody.rotation * Vector3.forward,
-			Quaternion.Euler(1, 3f, 1) * _playerRigidbody.rotation * Vector3.forward,
-			Quaternion.Euler(1, 6f, 1) * _playerRigidbody.rotation * Vector3.forward
+		Quaternion[] originalDirections = {
+			Quaternion.Euler(1, 1, -6) * transform.rotation,
+			Quaternion.Euler(1, 1, -3) * transform.rotation,
+			transform.rotation,
+			Quaternion.Euler(1, 1, 3) * transform.rotation,
+			Quaternion.Euler(1, 1, 6) * transform.rotation,
 		};
 
 		for (int i = 0; i < offsets.Length; i++) {
-			GameObject bullet = Instantiate (m_bulletPrefab, _playerRigidbody.position + offsets[i], Quaternion.identity) as GameObject;
+			a_Audio.Play ();
+			GameObject bullet = Instantiate (m_SplashBulletPrefab, offsets[i], originalDirections[i]) as GameObject;
 			Bullet bulletScript = bullet.GetComponent<Bullet> ();
-
-			bulletScript.originalDirection = originalDirections [i];
 
 			bulletScript.owner = this;
 			bulletScript.manager = m_Manager;
@@ -527,8 +530,10 @@ public class PlayerWeapons : NetworkBehaviour {
 	public void CmdPutMine() {
 		if (!isClient) //avoid to create bullet twice (here & in Rpc call) on hosting client
 			CreateMine ();
+		
+		CreateMine ();
 
-		RpcPutMine ();
+		//RpcPutMine ();
 	}
 
 	[ClientRpc]
@@ -547,6 +552,7 @@ public class PlayerWeapons : NetworkBehaviour {
 
 		mineScript.owner = this;
 		mineScript.m_Manager = m_Manager;
+		NetworkServer.Spawn (mine);
 	}
 	#endregion
 }

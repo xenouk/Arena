@@ -24,6 +24,8 @@ public class GameManager : NetworkBehaviour {
 	public Transform[] m_StartPoints;
 	public GameObject m_SpawnPoints;
 	public GameObject[] m_PickupPrefabs;
+	public GameObject[] m_Objects;
+	public AudioSource m_BGM;
 
 	[HideInInspector]
 	[SyncVar]
@@ -42,10 +44,8 @@ public class GameManager : NetworkBehaviour {
 	public CanvasGroup m_WeaponCanvas;
 
 	[HideInInspector]
-	public int m_RoundNumber;                  // Which round the game is currently on.
-	[HideInInspector]
+	public int m_RoundNumber;  
 	public WaitForSeconds m_StartWait;         // Used to have a delay whilst the round starts.
-	[HideInInspector]
 	public WaitForSeconds m_EndWait;           // Used to have a delay whilst the round or game ends.
 	[HideInInspector]
 	public PlayerManager m_RoundWinner;          // Reference to the winner of the current round.  Used to make an announcement of who won.
@@ -82,6 +82,10 @@ public class GameManager : NetworkBehaviour {
 		base.OnStartClient ();
 
 		foreach (GameObject obj in m_PickupPrefabs) {
+			ClientScene.RegisterPrefab (obj);
+		}
+
+		foreach (GameObject obj in m_Objects) {
 			ClientScene.RegisterPrefab (obj);
 		}
 	}
@@ -129,6 +133,22 @@ public class GameManager : NetworkBehaviour {
 
 		// Start off by running the 'RoundStarting' coroutine but don't return until it's finished.
 		yield return StartCoroutine (RoundStarting ());
+
+		int countdownTime = 3;
+		string matchName = "ROUND " + m_RoundNumber;
+		if (m_RoundNumber == 1) {
+			while (countdownTime >= 0) {
+				if (countdownTime > 0)
+					RpcUpdateMessage (matchName + "\n" + countdownTime);
+				else
+					RpcUpdateMessage (matchName + "\nStart!");
+				countdownTime--;
+				yield return new WaitForSeconds (1.0f);
+			}
+		} else {
+			RpcUpdateMessage (matchName + "\nStart!");
+			yield return new WaitForSeconds (1.0f);
+		}
 
 		// Once the 'RoundStarting' coroutine is finished, run the 'RoundPlaying' coroutine but don't return until it's finished.
 		yield return StartCoroutine (m_RoundMatchManager.RoundPlaying ());
@@ -180,6 +200,17 @@ public class GameManager : NetworkBehaviour {
 		// Start off by running the 'RoundStarting' coroutine but don't return until it's finished.
 		yield return StartCoroutine (RoundStarting ());
 
+		int countdownTime = 3;
+		string matchName = "DEAD MATCH!";
+		while (countdownTime >= 0) {
+			if (countdownTime > 0)
+				RpcUpdateMessage (matchName + "\n" + countdownTime);
+			else
+				RpcUpdateMessage (matchName + "\nStart!");
+			countdownTime--;
+			yield return new WaitForSeconds (1.0f);
+		}
+
 		// Once the 'RoundStarting' coroutine is finished, run the 'RoundPlaying' coroutine but don't return until it's finished.
 		yield return StartCoroutine (m_DeadMatchManager.DeadMatchPlaying ());
 
@@ -188,16 +219,10 @@ public class GameManager : NetworkBehaviour {
 
 		m_GameIsFinished = true;
 		float leftWaitTime = 5.0f;
-		bool allAreReady = false;
 		int flooredWaitTime = 5;
 
-		while (leftWaitTime > 0.0f && !allAreReady) {
+		while (leftWaitTime > 0.0f) {
 			yield return null;
-
-			allAreReady = true;
-			foreach (var tmp in m_Players) {
-				allAreReady &= tmp.IsReady ();
-			}
 
 			leftWaitTime -= Time.deltaTime;
 
@@ -236,28 +261,18 @@ public class GameManager : NetworkBehaviour {
 			elapsedTime += Time.deltaTime;
 
 			//sometime, synchronization lag behind because of packet drop, so we make sure our tank are reseted
-			if (elapsedTime / wait < 0.5f)
-				ResetAllPlayers ();
+			//if (elapsedTime / wait < 0.5f)
+				//ResetAllPlayers ();
 
 			yield return null;
 		}
 
+		m_BGM.Play ();
 		m_MessageText.color = Color.white;
-
-		switch (m_MatchMode) {
-		case 0:
-			m_MessageText.text = "DEAD MATCH!";
-			break;
-		case 1:
-			// Increment the round number and display text showing the players what round it is.
-			m_MessageText.text = "ROUND " + m_RoundNumber;
-			break;
-		}
 
 		if (isServer && !_SpawningPickups) {
 			StartCoroutine (SpawnPickups ());
 		}
-		
 	}
 
 	private IEnumerator SpawnPickups(){

@@ -376,10 +376,10 @@ namespace UnityStandardAssets.Network
 		}
 
 		void OnLevelWasLoaded(int level){
-			if (level == 1)
-				Cursor.SetCursor (m_Cursor, Vector2.zero, CursorMode.Auto);
-			else
+			if (level == 0)
 				Cursor.SetCursor (null, Vector2.zero, CursorMode.Auto);
+			else
+				Cursor.SetCursor (m_Cursor, Vector2.zero, CursorMode.Auto);
 		}
 
 		void FixedUpdate () {

@@ -1,7 +1,8 @@
 ﻿using UnityEngine;
 using System.Collections;
+using UnityEngine.Networking;
 
-public class Mine : MonoBehaviour {
+public class Mine : NetworkBehaviour {
 	public SpriteRenderer m_Icon;
 	public Sprite[] m_RandomIcon; 
 	public int damage = 150;
@@ -9,35 +10,35 @@ public class Mine : MonoBehaviour {
 	public float m_Duration = 15f;
 	public PlayerWeapons owner;
 	public PlayerManager m_Manager;
-	public GameObject m_Explosion;
+	public GameObject m_Particle;
 
 	private void Start() {
-		Destroy (gameObject, m_Duration);
+		Invoke ("Destroy", m_Duration);
 		m_Icon.sprite = m_RandomIcon [Random.Range(0, m_RandomIcon.Length)];
 	}
 
-	void OnTriggerEnter (Collider other){
+	[ServerCallback]
+	void OnTriggerEnter2D (Collider2D other){
 		if (other.gameObject == owner.gameObject)
 			return;
 
-		Collider[] colliders = Physics.OverlapSphere (other.transform.position, m_DamageRadius, LayerMask.GetMask("Player"));
+		Collider2D[] colliders = Physics2D.OverlapCircleAll (other.transform.position, m_DamageRadius, LayerMask.GetMask("Player"));
 
-		foreach (Collider collider in colliders) {
+		foreach (Collider2D collider in colliders) {
 			var playerHealth = collider.GetComponent<PlayerHealth> ();
 			if (playerHealth != null && collider.gameObject != owner.gameObject) {
 				playerHealth.TakeDamage (damage, m_Manager);
 			}
 		}
 
-		Destroy (gameObject);
+		if (isServer)
+			NetworkServer.Spawn (Instantiate (m_Particle, transform.position, Quaternion.identity) as GameObject);
+
+		NetworkServer.Destroy (gameObject);
 	}
 
-	//called on client when the Network destroy that object (it was destroyed on server)
-	public void OnDestroy() {
-
-		m_Explosion.SetActive (true);
-		m_Explosion.transform.parent = null;
-		//set the particle to be destroyed at the end of their lifetime
-		Destroy (m_Explosion, 2f);
+	[ServerCallback]
+	void Destroy(){
+		NetworkServer.Destroy(gameObject);
 	}
 }

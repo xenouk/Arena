@@ -57,10 +57,14 @@ public class PlayerManager {
 		m_Setup.m_PlayerNumber = m_PlayerNumber;
 		m_Setup.m_LocalID = m_LocalPlayerID;
 		m_Setup.m_kills = m_Kills;
+
+		DisableControl ();
 	}
 
 	// Used during the phases of the game where the player shouldn't be able to control their tank.
 	public void DisableControl() {
+		m_Movement.m_Trails [0].enabled = false;
+		m_Movement.m_Trails [1].enabled = false;
 		m_Movement.enabled = false;
 		m_Weapons.enabled = false;
 	}
@@ -69,6 +73,8 @@ public class PlayerManager {
 	public void EnableControl() {
 		m_Movement.enabled = true;
 		m_Weapons.enabled = true;
+		m_Movement.m_Trails [0].enabled = true;
+		m_Movement.m_Trails [1].enabled = true;
 	}
 
 	public string GetName() {
@@ -96,7 +102,7 @@ public class PlayerManager {
 
 		if (m_Movement.hasAuthority) {
 			m_Movement._playerRigidbody.position = m_SpawnPoint.position;
-			m_Movement._playerRigidbody.rotation = m_SpawnPoint.rotation;
+			m_Movement._playerRigidbody.rotation = 0;
 		}
 	}
 }

@@ -59,7 +59,7 @@ public class CameraControl : MonoBehaviour {
 			average /= numTargets;
 
 		// Keep the same y value.
-		average.y = transform.position.y;
+		average.z = transform.position.z;
 
 		return average;
 	}

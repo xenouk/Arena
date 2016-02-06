@@ -5,24 +5,22 @@ public class FireBall : MonoBehaviour {
 	public int damage = 100;
 	public float speed = 100f;
 	public float m_DamageRadius = 3;
-	public Vector3 originalDirection;
 	public PlayerWeapons owner;
 	public PlayerManager manager;
 	public GameObject m_Explosion;
 
 	private void Start() {
 		Destroy(gameObject, 5.0f);
-		GetComponent<Rigidbody>().velocity = originalDirection * speed;
-		transform.forward = originalDirection;
+		GetComponent<Rigidbody2D>().velocity = transform.up * speed;
 	}
 
-	void OnTriggerEnter (Collider other){
+	void OnTriggerEnter2D (Collider2D other){
 		if (other.gameObject == owner.gameObject)
 			return;
 
-		Collider[] colliders = Physics.OverlapSphere (other.transform.position, m_DamageRadius, LayerMask.GetMask("Player"));
+		Collider2D[] colliders = Physics2D.OverlapCircleAll (other.transform.position, m_DamageRadius, LayerMask.GetMask("Player"));
 
-		foreach (Collider collider in colliders) {
+		foreach (Collider2D collider in colliders) {
 			var playerHealth = collider.GetComponent<PlayerHealth> ();
 			if (playerHealth != null && collider.gameObject != owner.gameObject) {
 				playerHealth.TakeDamage (damage, manager);
@@ -34,10 +32,9 @@ public class FireBall : MonoBehaviour {
 
 	//called on client when the Network destroy that object (it was destroyed on server)
 	public void OnDestroy() {
-
 		m_Explosion.SetActive (true);
 		m_Explosion.transform.parent = null;
-		//set the particle to be destroyed at the end of their lifetime
+		m_Explosion.GetComponent<AudioSource> ().enabled = true;
 		Destroy (m_Explosion, 2f);
 	}
 }

@@ -2,21 +2,21 @@
 using System.Collections;
 using UnityEngine.Networking;
 
-[RequireComponent(typeof(Rigidbody))]
+[RequireComponent(typeof(Rigidbody2D))]
 [RequireComponent(typeof(PlayerHealth))]
 public class PlayerController : NetworkBehaviour {
 	public float m_Speed = 7f;
-	public float m_RotSpeed = 7f;
+	public float m_RotSpeed = 90f;
 	public int m_PlayerNumber = 1;
 	public int m_LocalID = 1;
 	public PlayerManager m_Manager; 
-	private Vector3 _movement = Vector3.zero;
-	public Rigidbody _playerRigidbody;
+	public Rigidbody2D _playerRigidbody;
 	private PlayerHealth _playerHealth;
+	public TrailRenderer[] m_Trails;
 
 	// Use this for initialization
 	private void Awake() {
-		_playerRigidbody = GetComponent<Rigidbody>();
+		_playerRigidbody = GetComponent<Rigidbody2D>();
 	}
 
 	public override void OnStartLocalPlayer () {
@@ -24,38 +24,46 @@ public class PlayerController : NetworkBehaviour {
 		_playerHealth = GetComponent<PlayerHealth> ();
 	}
 
-	// Update is called once per frame
 	void FixedUpdate(){
 		if (!isLocalPlayer || !_playerHealth.m_IsAlive)
 			return;
-		
+
 		Move ();
-		Turning ();
 	}
 
 	void Move(){
-		_movement.Set(Input.GetAxisRaw("Horizontal1"), 0f, Input.GetAxisRaw("Vertical1"));
-		_movement = _movement.normalized * m_Speed;
-		if (_movement != Vector3.zero)
-			_playerRigidbody.MovePosition (_playerRigidbody.position + _movement * Time.fixedDeltaTime);
-		else
-			_playerRigidbody.velocity = Vector3.zero;
-	}
+		_playerRigidbody.velocity = Vector2.zero;
+		_playerRigidbody.angularVelocity = 0;
 
-	void Turning(){
-		Ray camRay = Camera.main.ScreenPointToRay(Input.mousePosition);
-		RaycastHit floorHit;
-		if(Physics.Raycast(camRay, out floorHit, 100f)){
-			Vector3 playerToMouse = floorHit.point - transform.position;
-			playerToMouse.y = 0f;
+		Quaternion rot = transform.rotation;
 
-			Quaternion newRotation = Quaternion.LookRotation(playerToMouse);
-			_playerRigidbody.rotation = Quaternion.Lerp (_playerRigidbody.rotation, newRotation, m_RotSpeed * Time.fixedDeltaTime);
+		float z = rot.eulerAngles.z;
+
+		z -= Input.GetAxis ("Horizontal1") * m_RotSpeed * Time.fixedDeltaTime;
+
+		rot = Quaternion.Euler (0, 0, z);
+
+		transform.rotation = rot;
+
+		Vector3 pos = new Vector3(_playerRigidbody.position.x, _playerRigidbody.position.y, 0);
+
+		Vector3 velocity = new Vector3(0, Input.GetAxis ("Vertical1") * m_Speed * Time.fixedDeltaTime, 0);
+
+		pos += rot * velocity;
+
+		transform.position = pos;
+
+		if (velocity.y < 0) {
+			m_Trails [0].time = 0f;
+			m_Trails [1].time = 0f;
+		} else {
+			m_Trails [0].time = 0.5f;
+			m_Trails [1].time = 0.5f;
 		}
 	}
 
 	public void SetDefaults() {
-		_playerRigidbody.velocity = Vector3.zero;
-		_playerRigidbody.angularVelocity = Vector3.zero;
+		_playerRigidbody.velocity = Vector2.zero;
+		_playerRigidbody.angularVelocity = 0;
 	}
 }
